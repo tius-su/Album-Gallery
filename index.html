@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Media - Foto & Video</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- PWA Theme Color -->
+    <meta name="theme-color" content="#4361ee">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            position: relative; /* For logout button */
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .description {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        
+        /* Logout Button */
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Tab Styles */
+        .tabs-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0 15px;
+            overflow-x: auto; /* Allow horizontal scrolling for many tabs */
+        }
+        
+        .tab-button {
+            background: transparent;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+        
+        .tab-button:hover {
+            color: white;
+        }
+        
+        .tab-button.active {
+            color: white;
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--success);
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Upload Section */
+        .upload-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .upload-box {
+            border: 2px dashed #dee2e6;
+            border-radius: var(--border-radius);
+            padding: 40px 20px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            background: var(--light);
+        }
+        
+        .upload-box:hover {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .upload-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .upload-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .upload-btn i {
+            font-size: 1.2rem;
+        }
+        
+        /* Gallery Styles */
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 10px; /* Spacing between items */
+        }
+
+        .gallery-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-controls select,
+        .gallery-controls button {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+            background-color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .gallery-controls button {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .gallery-controls button:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+        
+        .gallery-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .media-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative; /* For like button positioning */
+        }
+        
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .media-content {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .media-content img, 
+        .media-content video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .media-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 15px;
+            color: white;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .media-card:hover .media-overlay {
+            opacity: 1;
+        }
+        
+        .media-type {
+            background: var(--success);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .media-date {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .media-actions {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Align items vertically */
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            padding: 5px;
+            display: flex; /* For aligning icon and text */
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .action-btn:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .like-btn.liked {
+            color: #e74c3c; /* Red color for liked state */
+        }
+
+        .like-count {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            gap: 10px;
+        }
+        
+        .page-btn {
+            background: white;
+            border: 1px solid #dee2e6;
+            color: var(--dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        .page-btn:hover:not(:disabled) {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Upload Status */
+        .upload-status {
+            margin-top: 20px;
+        }
+        
+        .upload-item {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .upload-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .upload-name {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 70%;
+        }
+        
+        .progress-container {
+            background: var(--light-gray);
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 10px;
+            width: 0;
+            transition: width 0.4s ease;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab-button {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+
+            .logout-btn {
+                position: static; /* Adjust position for smaller screens */
+                margin-top: 15px;
+                width: fit-content;
+            }
+            header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .upload-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--box-shadow);
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .notification.success {
+            background: #2ecc71;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-close-button {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-close-button:hover,
+        .modal-close-button:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .modal label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal input[type="text"],
+        .modal select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .modal button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .album-list-container {
+            margin-top: 20px;
+            max-height: 400px; /* Limit height for scrollability */
+            overflow-y: auto;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 10px;
+        }
+
+        .album-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .album-item:last-child {
+            border-bottom: none;
+        }
+
+        .album-item-name {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .album-item-count {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Styling for the dropdown in the upload section */
+        #albumSelectUpload, #cloudinaryAccountSelect {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            width: 100%;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        #albumSelectUpload:focus, #cloudinaryAccountSelect:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-images"></i> Gallery Media</h1>
+            <p class="description">Unggah dan kelola foto serta video Anda. Media akan otomatis tersimpan di galeri sesuai jenisnya.</p>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Keluar
+            </button>
+        </header>
+        
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('upload')">
+                    <i class="fas fa-upload"></i> Unggah Media
+                </button>
+                <button class="tab-button" onclick="switchTab('gallery-photo')">
+                    <i class="fas fa-camera"></i> Galeri Foto
+                </button>
+                <button class="tab-button" onclick="switchTab('gallery-video')">
+                    <i class="fas fa-video"></i> Galeri Video
+                </button>
+                <button class="tab-button" onclick="switchTab('albums')">
+                    <i class="fas fa-folder-open"></i> Album
+                </button>
+            </div>
+            
+            <!-- Upload Tab -->
+            <div id="upload" class="tab-content active">
+                <div class="upload-container">
+                    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p class="upload-text">Klik untuk memilih file atau tarik dan lepas file di sini</p>
+                        <p class="upload-text" style="font-size: 0.9rem; margin-top: -15px;">Format yang didukung: JPG, PNG, GIF, MP4, MOV</p>
+                        <button class="upload-btn">
+                            <i class="fas fa-folder-open"></i> Pilih File
+                        </button>
+                        <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
+                    </div>
+                    <!-- Album selection during upload -->
+                    <div style="margin-top: 20px;">
+                        <label for="albumSelectUpload">Pilih Album (Opsional):</label>
+                        <select id="albumSelectUpload">
+                            <option value="">Tidak ada album</option>
+                        </select>
+                        <button class="upload-btn" style="margin-top: 10px;" onclick="openCreateAlbumModal()">
+                            <i class="fas fa-plus-circle"></i> Buat Album Baru
+                        </button>
+                    </div>
+                    <!-- Cloudinary Account Selection -->
+                    <div style="margin-top: 20px;">
+                        <label for="cloudinaryAccountSelect">Pilih Akun Cloudinary:</label>
+                        <select id="cloudinaryAccountSelect">
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="upload-status" id="uploadStatus"></div>
+            </div>
+            
+            <!-- Photo Gallery Tab -->
+            <div id="gallery-photo" class="tab-content">
+                <div class="gallery-header">
+                    <h2 class="gallery-title"><i class="fas fa-camera"></i> Galeri Foto</h2>
+                    <div class="gallery-controls">
+                        <select id="photoAlbumFilter" onchange="filterGallery('photo', this.value)">
+                            <option value="">Semua Album</option>
+                        </select>
+                        <button onclick="openCreateAlbumModal('photo')">
+                            <i class="fas fa-plus-circle"></i> Buat Album
+                        </button>
+                    </div>
+                    <div class="gallery-count" id="photoCount">Memuat...</div>
+                </div>
+                
+                <div class="gallery-container" id="photoGallery"></div>
+                
+                <div class="pagination" id="photoPagination"></div>
+            </div>
+            
+            <!-- Video Gallery Tab -->
+            <div id="gallery-video" class="tab-content">
+                <div class="gallery-header">
+                    <h2 class="gallery-title"><i class="fas fa-video"></i> Galeri Video</h2>
+                    <div class="gallery-controls">
+                        <select id="videoAlbumFilter" onchange="filterGallery('video', this.value)">
+                            <option value="">Semua Album</option>
+                        </select>
+                        <button onclick="openCreateAlbumModal('video')">
+                            <i class="fas fa-plus-circle"></i> Buat Album
+                        </button>
+                    </div>
+                    <div class="gallery-count" id="videoCount">Memuat...</div>
+                </div>
+                
+                <div class="gallery-container" id="videoGallery"></div>
+                
+                <div class="pagination" id="videoPagination"></div>
+            </div>
+
+            <!-- Albums Tab -->
+            <div id="albums" class="tab-content">
+                <div class="gallery-header">
+                    <h2 class="gallery-title"><i class="fas fa-folder-open"></i> Daftar Album</h2>
+                    <button class="upload-btn" onclick="openCreateAlbumModal()">
+                        <i class="fas fa-plus-circle"></i> Buat Album Baru
+                    </button>
+                </div>
+                <div class="album-list-container" id="albumList">
+                    <!-- Album items will be loaded here -->
+                    <div class="loading"><div class="spinner"></div>Memuat album...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Create Album Modal -->
+    <div id="createAlbumModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-button" onclick="closeCreateAlbumModal()">&times;</span>
+            <h2>Buat Album Baru</h2>
+            <label for="newAlbumName">Nama Album:</label>
+            <input type="text" id="newAlbumName" placeholder="Masukkan nama album baru" required>
+            <button onclick="createAlbum()">
+                <i class="fas fa-save"></i> Simpan Album
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // Firebase Configuration (using global variables provided by Canvas)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            // Placeholder for local development if not in Canvas.
+            // In Canvas, __firebase_config will provide the actual config.
+const firebaseConfig = {
+  apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
+  authDomain: "homepage-71aa8.firebaseapp.com",
+  projectId: "homepage-71aa8",
+  storageBucket: "homepage-71aa8.firebasestorage.app",
+  messagingSenderId: "238347756112",
+  appId: "1:238347756112:web:6b33d6772f3568385f2755"
+};
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        let currentUserId = null; // To store the authenticated user's ID
+
+        // Cloudinary Accounts Configuration
+        // Anda bisa menambahkan lebih banyak akun Cloudinary di sini
+        const cloudinaryAccounts = [
+            { name: 'Akun Utama', cloudName: 'dyvoydnx8', uploadPreset: 'home-pages' },
+            { name: 'Akun Cadangan', cloudName: 'dk4ltjljk', uploadPreset: 'album-gallery' }
+            // Tambahkan akun lain jika diperlukan
+        ];
+        let activeCloudinaryAccount = cloudinaryAccounts[0]; // Default to the first account
+
+        // Application State
+        const state = {
+            currentPhotoPage: 1,
+            currentVideoPage: 1,
+            itemsPerPage: 10,
+            photoTotal: 0,
+            videoTotal: 0,
+            lastPhotoDoc: null,
+            lastVideoDoc: null,
+            selectedPhotoAlbum: '', // Stores selected album ID for photo gallery
+            selectedVideoAlbum: '', // Stores selected album ID for video gallery
+            albums: [] // Stores fetched albums
+        };
+        
+        // Function to display notifications
+        function showNotification(message, type = 'success', duration = 3000) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification show ${type}`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, duration);
+        }
+        
+        // Function to switch tabs
+        function switchTab(tabId) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Activate selected tab and show its content
+            document.querySelector(`.tab-button[onclick*="${tabId}"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            // Load galleries or albums if needed
+            if (tabId === 'gallery-photo') {
+                loadGallery('photo');
+            } else if (tabId === 'gallery-video') {
+                loadGallery('video');
+            } else if (tabId === 'albums') {
+                loadAlbums();
+            }
+        }
+
+        // --- Album Management Functions ---
+        const createAlbumModal = document.getElementById('createAlbumModal');
+        const newAlbumNameInput = document.getElementById('newAlbumName');
+
+        function openCreateAlbumModal() {
+            newAlbumNameInput.value = ''; // Clear previous input
+            createAlbumModal.style.display = 'flex'; // Show modal
+        }
+
+        function closeCreateAlbumModal() {
+            createAlbumModal.style.display = 'none'; // Hide modal
+        }
+
+        async function createAlbum() {
+            const albumName = newAlbumNameInput.value.trim();
+            if (!albumName) {
+                showNotification('Nama album tidak boleh kosong!', 'error');
+                return;
+            }
+
+            if (!currentUserId) {
+                showNotification('Autentikasi diperlukan untuk membuat album.', 'error');
+                return;
+            }
+
+            try {
+                // Albums are stored under /artifacts/{appId}/users/{userId}/albums
+                await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).add({
+                    name: albumName,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    mediaCount: 0,
+                    likes: 0 // Initial likes for the album itself (optional)
+                });
+                showNotification(`Album "${albumName}" berhasil dibuat!`);
+                closeCreateAlbumModal();
+                loadAlbums(); // Reload albums to update dropdowns and list
+            } catch (error) {
+                console.error('Error creating album:', error);
+                showNotification(`Gagal membuat album: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadAlbums() {
+            if (!currentUserId) {
+                console.log('User not authenticated, cannot load albums.');
+                return;
+            }
+
+            const albumListEl = document.getElementById('albumList');
+            const photoAlbumFilter = document.getElementById('photoAlbumFilter');
+            const videoAlbumFilter = document.getElementById('videoAlbumFilter');
+            const albumSelectUpload = document.getElementById('albumSelectUpload');
+
+            albumListEl.innerHTML = '<div class="loading"><div class="spinner"></div>Memuat album...</div>';
+            photoAlbumFilter.innerHTML = '<option value="">Semua Album</option>';
+            videoAlbumFilter.innerHTML = '<option value="">Semua Album</option>';
+            albumSelectUpload.innerHTML = '<option value="">Tidak ada album</option>';
+
+            try {
+                // Use onSnapshot for real-time updates of albums
+                db.collection(`artifacts/${appId}/users/${currentUserId}/albums`)
+                    .orderBy('createdAt', 'desc')
+                    .onSnapshot(snapshot => {
+                        state.albums = []; // Clear previous albums
+                        albumListEl.innerHTML = ''; // Clear album list UI
+
+                        if (snapshot.empty) {
+                            albumListEl.innerHTML = `
+                                <div class="empty-state">
+                                    <i class="fas fa-folder-open"></i>
+                                    <h3>Belum ada album</h3>
+                                    <p>Buat album pertama Anda untuk mengelola media.</p>
+                                </div>
+                            `;
+                            return;
+                        }
+
+                        snapshot.forEach(doc => {
+                            const album = { id: doc.id, ...doc.data() };
+                            state.albums.push(album);
+
+                            // Populate album list
+                            albumListEl.innerHTML += `
+                                <div class="album-item">
+                                    <span class="album-item-name">${album.name}</span>
+                                    <span class="album-item-count">${album.mediaCount || 0} media</span>
+                                </div>
+                            `;
+
+                            // Populate filter dropdowns
+                            const option = `<option value="${album.id}">${album.name}</option>`;
+                            photoAlbumFilter.innerHTML += option;
+                            videoAlbumFilter.innerHTML += option;
+                            albumSelectUpload.innerHTML += option;
+                        });
+
+                        // Set selected album in filters if previously selected
+                        photoAlbumFilter.value = state.selectedPhotoAlbum;
+                        videoAlbumFilter.value = state.selectedVideoAlbum;
+                    });
+
+            } catch (error) {
+                console.error('Error loading albums:', error);
+                albumListEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Gagal memuat album</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+                showNotification(`Gagal memuat album: ${error.message}`, 'error');
+            }
+        }
+
+        function filterGallery(type, albumId) {
+            if (type === 'photo') {
+                state.selectedPhotoAlbum = albumId;
+                state.currentPhotoPage = 1; // Reset page when filtering
+                state.lastPhotoDoc = null; // Reset pagination cursor
+            } else if (type === 'video') {
+                state.selectedVideoAlbum = albumId;
+                state.currentVideoPage = 1; // Reset page when filtering
+                state.lastVideoDoc = null; // Reset pagination cursor
+            }
+            loadGallery(type);
+        }
+
+        // --- Upload Function ---
+        async function uploadFiles() {
+            const files = document.getElementById('fileInput').files;
+            if (!files.length) return;
+            
+            const uploadStatus = document.getElementById('uploadStatus');
+            const selectedAlbumId = document.getElementById('albumSelectUpload').value;
+
+            // Get the currently selected Cloudinary account
+            const currentCloudinaryConfig = activeCloudinaryAccount;
+            const cloudName = currentCloudinaryConfig.cloudName;
+            const uploadPreset = currentCloudinaryConfig.uploadPreset;
+
+            for (const file of files) {
+                const itemId = `upload-${Date.now()}-${file.name.replace(/\s/g, '-')}`; // Sanitize ID
+                const itemHtml = `
+                    <div class="upload-item" id="${itemId}">
+                        <div class="upload-header">
+                            <div class="upload-name">${file.name}</div>
+                            <div class="upload-percent">0%</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-${itemId}"></div>
+                        </div>
+                    </div>
+                `;
+                
+                uploadStatus.insertAdjacentHTML('afterbegin', itemHtml);
+                const progressBar = document.getElementById(`progress-${itemId}`);
+                const percentText = document.querySelector(`#${itemId} .upload-percent`);
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', uploadPreset);
+                
+                try {
+                    // Using XMLHttpRequest for progress tracking
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, true);
+
+                    xhr.upload.addEventListener('progress', (e) => {
+                        if (e.lengthComputable) {
+                            const percent = Math.round((e.loaded / e.total) * 100);
+                            progressBar.style.width = `${percent}%`;
+                            percentText.textContent = `${percent}%`;
+                        }
+                    });
+
+                    const responsePromise = new Promise((resolve, reject) => {
+                        xhr.onload = () => {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                resolve(JSON.parse(xhr.responseText));
+                            } else {
+                                reject(new Error(`Upload failed with status ${xhr.status}: ${xhr.responseText}`));
+                            }
+                        };
+                        xhr.onerror = () => reject(new Error('Network error during upload.'));
+                        xhr.send(formData);
+                    });
+
+                    const data = await responsePromise;
+                    
+                    // Display preview
+                    const preview = data.resource_type === 'image' ? 
+                        `<img src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;">` :
+                        `<video src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;" controls></video>`;
+                    
+                    document.getElementById(itemId).insertAdjacentHTML('beforeend', `
+                        <div style="margin-top: 10px;">
+                            ${preview}
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #28a745;">
+                                <i class="fas fa-check-circle"></i> Unggahan berhasil!
+                            </div>
+                        </div>
+                    `);
+                    
+                    // Save to Firestore
+                    const collectionPath = `artifacts/${appId}/users/${currentUserId}/${data.resource_type === 'image' ? 'fotos' : 'videos'}`;
+                    await db.collection(collectionPath).add({
+                        url: data.secure_url,
+                        name: file.name,
+                        type: data.resource_type,
+                        format: data.format,
+                        size: data.bytes,
+                        date: firebase.firestore.FieldValue.serverTimestamp(),
+                        albumId: selectedAlbumId || null, // Store album ID or null
+                        likes: 0 // Initialize likes to 0
+                    });
+
+                    // Update album media count if an album was selected
+                    if (selectedAlbumId) {
+                        const albumRef = db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(selectedAlbumId);
+                        await albumRef.update({
+                            mediaCount: firebase.firestore.FieldValue.increment(1)
+                        });
+                    }
+                    
+                    showNotification(`File ${file.name} berhasil diunggah ke ${data.resource_type === 'image' ? 'galeri foto' : 'galeri video'}!`);
+                    
+                    // Refresh galleries
+                    loadGallery(data.resource_type === 'image' ? 'photo' : 'video');
+                    loadAlbums(); // Update album counts
+                    
+                } catch (error) {
+                    document.getElementById(itemId).insertAdjacentHTML('beforeend', `
+                        <div style="margin-top: 10px; color: #dc3545;">
+                            <i class="fas fa-exclamation-circle"></i> Gagal mengunggah: ${error.message}
+                        </div>
+                    `);
+                    progressBar.style.background = '#dc3545';
+                    
+                    showNotification(`Gagal mengunggah ${file.name}: ${error.message}`, 'error');
+                }
+            }
+            
+            // Reset file input
+            document.getElementById('fileInput').value = '';
+        }
+        
+        // Event listener for file input
+        document.getElementById('fileInput').addEventListener('change', uploadFiles);
+        
+        // Function to load gallery
+        async function loadGallery(type) {
+            if (!currentUserId) {
+                console.log('User not authenticated, cannot load gallery.');
+                return;
+            }
+
+            const collectionName = type === 'photo' ? 'fotos' : 'videos';
+            const galleryEl = document.getElementById(`${type}Gallery`);
+            const paginationEl = document.getElementById(`${type}Pagination`);
+            const countEl = document.getElementById(`${type}Count`);
+            const selectedAlbumId = type === 'photo' ? state.selectedPhotoAlbum : state.selectedVideoAlbum;
+            
+            // Display loading state
+            galleryEl.innerHTML = '<div class="loading"><div class="spinner"></div>Memuat...</div>';
+            
+            try {
+                let baseQuery = db.collection(`artifacts/${appId}/users/${currentUserId}/${collectionName}`);
+                
+                // Apply album filter if selected
+                if (selectedAlbumId) {
+                    baseQuery = baseQuery.where('albumId', '==', selectedAlbumId);
+                }
+                // Note: Firestore doesn't easily support querying for null values in 'where' clauses
+                // combined with other filters without specific indexes.
+                // For "Semua Album" (empty selectedAlbumId), it fetches all documents in the collection.
+
+                // Count total items for pagination
+                const countSnapshot = await baseQuery.get();
+                const totalItems = countSnapshot.size;
+                state[`${type}Total`] = totalItems;
+                
+                // Update count display
+                countEl.textContent = `${totalItems} ${type === 'photo' ? 'foto' : 'video'}`;
+                
+                // Query with pagination
+                let query = baseQuery
+                    .orderBy('date', 'desc')
+                    .limit(state.itemsPerPage);
+                
+                // Apply startAfter for subsequent pages
+                if (state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`] > 1 && state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`]) {
+                    query = query.startAfter(state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`]);
+                }
+                
+                const snapshot = await query.get();
+                
+                // Store last document for next page pagination
+                if (!snapshot.empty) {
+                    state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = snapshot.docs[snapshot.docs.length - 1];
+                } else {
+                    state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = null; // No more documents
+                }
+                
+                // Render gallery
+                if (snapshot.empty) {
+                    galleryEl.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-${type === 'photo' ? 'camera' : 'video'}"></i>
+                            <h3>Tidak ada ${type === 'photo' ? 'foto' : 'video'}</h3>
+                            <p>Unggah ${type === 'photo' ? 'foto' : 'video'} pertama Anda ${selectedAlbumId ? `ke album ini` : ''}</p>
+                        </div>
+                    `;
+                    paginationEl.innerHTML = '';
+                    return;
+                }
+                
+                galleryEl.innerHTML = ''; // Clear previous content
+                
+                snapshot.forEach(doc => {
+                    const media = { id: doc.id, ...doc.data() };
+                    let dateText = 'Tanggal tidak tersedia';
+                    
+                    if (media.date && media.date.toDate) {
+                        const date = media.date.toDate();
+                        dateText = date.toLocaleDateString('id-ID', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric'
+                        });
+                    }
+                    
+                    galleryEl.innerHTML += `
+                        <div class="media-card">
+                            <div class="media-content">
+                                ${media.type === 'image' ? 
+                                    `<img src="${media.url}" alt="${media.name}">` : 
+                                    `<video src="${media.url}" controls></video>`}
+                                <div class="media-overlay">
+                                    <span class="media-type">${media.type === 'image' ? 'Foto' : 'Video'}</span>
+                                    <div class="media-date">${dateText}</div>
+                                </div>
+                            </div>
+                            <div class="media-actions">
+                                <button class="action-btn like-btn ${media.likes > 0 ? 'liked' : ''}" title="Suka" 
+                                    onclick="toggleLike('${media.id}', '${media.type}', ${media.likes || 0})">
+                                    <i class="fas fa-heart"></i> <span class="like-count">${media.likes || 0}</span>
+                                </button>
+                                <button class="action-btn" title="Salin link" onclick="copyToClipboard('${media.url}')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <a href="${media.url}" download class="action-btn" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <a href="https://wa.me/?text=${encodeURIComponent(media.url)}" target="_blank" class="action-btn" title="Bagikan via WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Render pagination
+                renderPagination(type, totalItems);
+                
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                galleryEl.innerHTML = `<div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Terjadi kesalahan</h3>
+                    <p>${error.message}</p>
+                </div>`;
+                
+                showNotification(`Gagal memuat galeri: ${error.message}`, 'error');
+            }
+        }
+        
+        // Function to copy to clipboard
+        function copyToClipboard(text) {
+            // Using document.execCommand('copy') for better iframe compatibility
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showNotification('URL berhasil disalin!');
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                showNotification(`Gagal menyalin URL: ${err.message}`, 'error');
+            }
+            document.body.removeChild(textarea);
+        }
+        
+        // Function to render pagination
+        function renderPagination(type, totalItems) {
+            const paginationEl = document.getElementById(`${type}Pagination`);
+            const currentPage = state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`];
+            const totalPages = Math.ceil(totalItems / state.itemsPerPage);
+            
+            if (totalPages <= 1) {
+                paginationEl.innerHTML = '';
+                return;
+            }
+            
+            let paginationHtml = '';
+            
+            // Previous button
+            paginationHtml += `
+                <button class="page-btn" onclick="changePage('${type}', ${currentPage - 1})" 
+                    ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            // Display a few pages around the current page
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `
+                    <button class="page-btn ${i === currentPage ? 'active' : ''}" 
+                        onclick="changePage('${type}', ${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            // Next button
+            paginationHtml += `
+                <button class="page-btn" onclick="changePage('${type}', ${currentPage + 1})" 
+                    ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+            
+            paginationEl.innerHTML = paginationHtml;
+        }
+        
+        // Function to change page
+        function changePage(type, page) {
+            state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`] = page;
+            
+            // Reset lastDoc if going back to the first page or navigating significantly
+            if (page === 1) {
+                state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = null;
+            }
+            
+            loadGallery(type);
+        }
+
+        // --- Like Functionality ---
+        async function toggleLike(mediaId, mediaType, currentLikes) {
+            if (!currentUserId) {
+                showNotification('Silakan masuk untuk menyukai media.', 'error');
+                return;
+            }
+
+            const collectionPath = `artifacts/${appId}/users/${currentUserId}/${mediaType === 'image' ? 'fotos' : 'videos'}`;
+            const mediaRef = db.collection(collectionPath).doc(mediaId);
+
+            try {
+                // For simplicity, we'll just increment the likes.
+                // For a real app, you'd track which user liked which item to prevent multiple likes.
+                await mediaRef.update({
+                    likes: firebase.firestore.FieldValue.increment(1) // Increment by 1
+                });
+                showNotification('Media disukai!');
+                // The onSnapshot listener in loadGallery will automatically refresh the UI
+            } catch (error) {
+                console.error('Error liking media:', error);
+                showNotification(`Gagal menyukai media: ${error.message}`, 'error');
+            }
+        }
+
+        // --- Logout Functionality ---
+        async function logout() {
+            try {
+                await auth.signOut();
+                showNotification('Berhasil keluar. Mengarahkan ke halaman login...', 'success');
+                window.location.href = 'login.html'; // Redirect to login page
+            } catch (error) {
+                console.error('Error logging out:', error);
+                showNotification(`Gagal keluar: ${error.message}`, 'error');
+            }
+        }
+
+        // Event listener for drag and drop
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropArea = document.querySelector('.upload-box');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.style.borderColor = '#4361ee';
+                dropArea.style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+            }
+            
+            function unhighlight() {
+                dropArea.style.borderColor = '#dee2e6';
+                dropArea.style.backgroundColor = '#f8f9fa';
+            }
+            
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                document.getElementById('fileInput').files = files;
+                uploadFiles();
+            }
+
+            // Populate Cloudinary account selection dropdown
+            const cloudinaryAccountSelect = document.getElementById('cloudinaryAccountSelect');
+            cloudinaryAccounts.forEach((account, index) => {
+                const option = document.createElement('option');
+                option.value = index; // Use index as value
+                option.textContent = account.name;
+                cloudinaryAccountSelect.appendChild(option);
+            });
+
+            // Set the active Cloudinary account based on selection
+            cloudinaryAccountSelect.addEventListener('change', (event) => {
+                activeCloudinaryAccount = cloudinaryAccounts[parseInt(event.target.value)];
+                showNotification(`Akun Cloudinary diubah ke: ${activeCloudinaryAccount.name}`);
+            });
+        });
+
+        // Check authentication status on page load
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUserId = user.uid;
+                console.log('User authenticated:', currentUserId);
+                // Load initial data once user is authenticated
+                loadAlbums();
+                loadGallery('photo');
+            } else {
+                currentUserId = null;
+                console.log('No user authenticated. Redirecting to login.');
+                window.location.href = 'login.html'; // Redirect to login page
+            }
+        });
+
+        // Add event listener to close modal when clicking outside content
+        window.addEventListener('click', (event) => {
+            if (event.target == createAlbumModal) {
+                closeCreateAlbumModal();
+            }
+        });
+    </script>
+</body>
+</html>
