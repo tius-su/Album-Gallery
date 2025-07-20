@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery Media - Foto & Video</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- PWA Manifest Link -->
-   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
   <link rel="manifest" href="manifest.json">
-    
-    <!-- PWA Theme Color -->
+
     <meta name="theme-color" content="#4361ee">
     <style>
         :root {
@@ -26,13 +24,13 @@
             --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             --transition: all 0.3s ease;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7ff;
@@ -41,19 +39,19 @@
             padding: 20px;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         header {
             text-align: center;
             margin-bottom: 30px;
             padding: 20px 0;
             position: relative; /* For logout button */
         }
-        
+
         h1 {
             font-size: 2.5rem;
             color: var(--primary);
@@ -62,13 +60,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .description {
             color: var(--gray);
             max-width: 600px;
             margin: 0 auto 20px;
         }
-        
+
         /* Logout Button */
         .logout-btn {
             position: absolute;
@@ -108,14 +106,14 @@
             overflow: hidden;
             margin-bottom: 30px;
         }
-        
+
         .tabs {
             display: flex;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 0 15px;
             overflow-x: auto; /* Allow horizontal scrolling for many tabs */
         }
-        
+
         .tab-button {
             background: transparent;
             border: none;
@@ -128,15 +126,15 @@
             transition: var(--transition);
             white-space: nowrap; /* Prevent text wrapping */
         }
-        
+
         .tab-button:hover {
             color: white;
         }
-        
+
         .tab-button.active {
             color: white;
         }
-        
+
         .tab-button.active::after {
             content: '';
             position: absolute;
@@ -147,16 +145,16 @@
             background: var(--success);
             border-radius: 4px 4px 0 0;
         }
-        
+
         .tab-content {
             display: none;
             padding: 30px;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         /* Upload Section */
         .upload-container {
             background: white;
@@ -165,7 +163,7 @@
             padding: 25px;
             margin-bottom: 30px;
         }
-        
+
         .upload-box {
             border: 2px dashed #dee2e6;
             border-radius: var(--border-radius);
@@ -175,27 +173,27 @@
             cursor: pointer;
             background: var(--light);
         }
-        
+
         .upload-box:hover {
             border-color: var(--primary);
             background: rgba(67, 97, 238, 0.05);
         }
-        
+
         .upload-icon {
             font-size: 3rem;
             color: var(--primary);
             margin-bottom: 15px;
         }
-        
+
         .upload-text {
             margin-bottom: 20px;
             color: var(--gray);
         }
-        
+
         .file-input {
             display: none;
         }
-        
+
         .upload-btn {
             background: var(--primary);
             color: white;
@@ -210,17 +208,17 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .upload-btn:hover {
             background: var(--secondary);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
-        
+
         .upload-btn i {
             font-size: 1.2rem;
         }
-        
+
         /* Gallery Styles */
         .gallery-header {
             display: flex;
@@ -258,18 +256,18 @@
             background: var(--secondary);
             transform: translateY(-1px);
         }
-        
+
         .gallery-title {
             font-size: 1.5rem;
             color: var(--primary);
         }
-        
+
         .gallery-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 25px;
         }
-        
+
         .media-card {
             background: white;
             border-radius: var(--border-radius);
@@ -278,26 +276,26 @@
             transition: var(--transition);
             position: relative; /* For like button positioning */
         }
-        
+
         .media-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        
+
         .media-content {
             height: 200px;
             overflow: hidden;
             position: relative;
         }
-        
-        .media-content img, 
+
+        .media-content img,
         .media-content video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
-        
+
         .media-overlay {
             position: absolute;
             bottom: 0;
@@ -309,11 +307,11 @@
             opacity: 0;
             transition: var(--transition);
         }
-        
+
         .media-card:hover .media-overlay {
             opacity: 1;
         }
-        
+
         .media-type {
             background: var(--success);
             color: white;
@@ -324,19 +322,19 @@
             display: inline-block;
             margin-bottom: 8px;
         }
-        
+
         .media-date {
             font-size: 0.85rem;
             opacity: 0.9;
         }
-        
+
         .media-actions {
             padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center; /* Align items vertically */
         }
-        
+
         .action-btn {
             background: none;
             border: none;
@@ -349,7 +347,7 @@
             align-items: center;
             gap: 5px;
         }
-        
+
         .action-btn:hover {
             color: var(--primary);
             transform: scale(1.1);
@@ -363,7 +361,7 @@
             font-size: 0.9rem;
             color: var(--gray);
         }
-        
+
         /* Pagination */
         .pagination {
             display: flex;
@@ -372,7 +370,7 @@
             margin-top: 40px;
             gap: 10px;
         }
-        
+
         .page-btn {
             background: white;
             border: 1px solid #dee2e6;
@@ -387,31 +385,31 @@
             transition: var(--transition);
             font-weight: 600;
         }
-        
+
         .page-btn:hover:not(:disabled) {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-        
+
         .page-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        
+
         .page-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-        
+
         /* Loading */
         .loading {
             text-align: center;
             padding: 40px;
             color: var(--gray);
         }
-        
+
         .spinner {
             width: 40px;
             height: 40px;
@@ -421,17 +419,17 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+
         /* Upload Status */
         .upload-status {
             margin-top: 20px;
         }
-        
+
         .upload-item {
             background: white;
             border-radius: var(--border-radius);
@@ -439,13 +437,13 @@
             margin-bottom: 15px;
             box-shadow: var(--box-shadow);
         }
-        
+
         .upload-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
         }
-        
+
         .upload-name {
             font-weight: 600;
             overflow: hidden;
@@ -453,14 +451,14 @@
             white-space: nowrap;
             max-width: 70%;
         }
-        
+
         .progress-container {
             background: var(--light-gray);
             border-radius: 10px;
             height: 10px;
             overflow: hidden;
         }
-        
+
         .progress-bar {
             height: 100%;
             background: var(--primary);
@@ -468,23 +466,23 @@
             width: 0;
             transition: width 0.4s ease;
         }
-        
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             .gallery-container {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                 gap: 15px;
             }
-            
+
             .tabs {
                 flex-wrap: wrap;
             }
-            
+
             .tab-button {
                 padding: 12px 15px;
                 font-size: 0.9rem;
             }
-            
+
             .tab-content {
                 padding: 20px;
             }
@@ -500,43 +498,43 @@
                 align-items: center;
             }
         }
-        
+
         @media (max-width: 480px) {
             h1 {
                 font-size: 2rem;
             }
-            
+
             .gallery-container {
                 grid-template-columns: 1fr;
             }
-            
+
             .upload-btn {
                 width: 100%;
                 justify-content: center;
             }
-            
+
             .pagination {
                 flex-wrap: wrap;
             }
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 50px 20px;
             color: var(--gray);
         }
-        
+
         .empty-state i {
             font-size: 4rem;
             margin-bottom: 20px;
             color: #dee2e6;
         }
-        
+
         .empty-state h3 {
             margin-bottom: 10px;
             color: var(--dark);
         }
-        
+
         .notification {
             position: fixed;
             top: 20px;
@@ -550,15 +548,15 @@
             transition: transform 0.3s ease;
             z-index: 1000;
         }
-        
+
         .notification.show {
             transform: translateX(0);
         }
-        
+
         .notification.error {
             background: #e74c3c;
         }
-        
+
         .notification.success {
             background: #2ecc71;
         }
@@ -726,6 +724,21 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
         }
+
+        /* Move to Album Modal */
+        #moveToAlbumModal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close-button" onclick="closeMoveToAlbumModal()">&times;</span>
+                <h2>Pindahkan ke Album</h2>
+                <label for="selectTargetAlbum">Pilih Album Tujuan:</label>
+                <select id="selectTargetAlbum">
+                    <option value="">-- Pilih Album --</option>
+                </select>
+                <button onclick="moveMediaToAlbum()">
+                    <i class="fas fa-arrow-right"></i> Pindahkan
+                </button>
+            </div>
+        </div>
     </style>
 </head>
 <body>
@@ -738,7 +751,7 @@
             </button>
             <div class="user-id-display" id="userIdDisplay"></div>
         </header>
-        
+
         <div class="tabs-container">
             <div class="tabs">
                 <button class="tab-button active" onclick="switchTab('upload')">
@@ -754,8 +767,7 @@
                     <i class="fas fa-folder-open"></i> Album
                 </button>
             </div>
-            
-            <!-- Upload Tab -->
+
             <div id="upload" class="tab-content active">
                 <div class="upload-container">
                     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
@@ -767,10 +779,8 @@
                         <button class="upload-btn">
                             <i class="fas fa-folder-open"></i> Pilih File
                         </button>
-                        <!-- Input file ini tersembunyi dan akan memicu uploadFiles() saat file dipilih -->
                         <input type="file" id="fileInput" class="file-input" multiple accept="image/*,video/*">
                     </div>
-                    <!-- Album selection during upload -->
                     <div style="margin-top: 20px;">
                         <label for="albumSelectUpload">Pilih Album (Opsional):</label>
                         <select id="albumSelectUpload">
@@ -780,19 +790,16 @@
                             <i class="fas fa-plus-circle"></i> Buat Album Baru
                         </button>
                     </div>
-                    <!-- Cloudinary Account Selection -->
                     <div style="margin-top: 20px;">
                         <label for="cloudinaryAccountSelect">Pilih Akun Cloudinary:</label>
                         <select id="cloudinaryAccountSelect">
-                            <!-- Options will be populated by JavaScript -->
-                        </select>
+                            </select>
                     </div>
                 </div>
-                
+
                 <div class="upload-status" id="uploadStatus"></div>
             </div>
-            
-            <!-- Photo Gallery Tab -->
+
             <div id="gallery-photo" class="tab-content">
                 <div class="gallery-header">
                     <h2 class="gallery-title"><i class="fas fa-camera"></i> Galeri Foto</h2>
@@ -806,13 +813,12 @@
                     </div>
                     <div class="gallery-count" id="photoCount">Memuat...</div>
                 </div>
-                
+
                 <div class="gallery-container" id="photoGallery"></div>
-                
+
                 <div class="pagination" id="photoPagination"></div>
             </div>
-            
-            <!-- Video Gallery Tab -->
+
             <div id="gallery-video" class="tab-content">
                 <div class="gallery-header">
                     <h2 class="gallery-title"><i class="fas fa-video"></i> Galeri Video</h2>
@@ -826,13 +832,12 @@
                     </div>
                     <div class="gallery-count" id="videoCount">Memuat...</div>
                 </div>
-                
+
                 <div class="gallery-container" id="videoGallery"></div>
-                
+
                 <div class="pagination" id="videoPagination"></div>
             </div>
 
-            <!-- Albums Tab -->
             <div id="albums" class="tab-content">
                 <div class="gallery-header">
                     <h2 class="gallery-title"><i class="fas fa-folder-open"></i> Daftar Album</h2>
@@ -841,7 +846,6 @@
                     </button>
                 </div>
                 <div class="album-list-container" id="albumList">
-                    <!-- Album items will be loaded here -->
                     <div class="loading"><div class="spinner"></div>Memuat album...</div>
                 </div>
             </div>
@@ -850,7 +854,6 @@
 
     <div class="notification" id="notification"></div>
 
-    <!-- Create Album Modal -->
     <div id="createAlbumModal" class="modal">
         <div class="modal-content">
             <span class="modal-close-button" onclick="closeCreateAlbumModal()">&times;</span>
@@ -863,7 +866,6 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal for Delete -->
     <div id="confirmModal" class="modal">
         <div class="modal-content">
             <span class="modal-close-button" onclick="closeConfirmModal()">&times;</span>
@@ -879,7 +881,20 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
+    <div id="moveToAlbumModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-button" onclick="closeMoveToAlbumModal()">&times;</span>
+            <h2>Pindahkan ke Album</h2>
+            <label for="selectTargetAlbum">Pilih Album Tujuan:</label>
+            <select id="selectTargetAlbum">
+                <option value="">-- Pilih Album --</option>
+            </select>
+            <button onclick="moveMediaToAlbum()">
+                <i class="fas fa-arrow-right"></i> Pindahkan
+            </button>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -913,7 +928,7 @@
                 console.error('Main App: Error parsing __firebase_config from Canvas:', e);
                 // Fallback to manual config if parsing fails
                 configToUse = {
-                    apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE", 
+                    apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
                     authDomain: "homepage-71aa8.firebaseapp.com",
                     projectId: "homepage-71aa8",
                     storageBucket: "homepage-71aa8.firebasestorage.app",
@@ -927,7 +942,7 @@
             console.warn('Main App: __firebase_config not found. Using fallback Firebase config (for local development).');
             // Fallback for local development outside Canvas
             configToUse = {
-                apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE", 
+                apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
                 authDomain: "homepage-71aa8.firebaseapp.com",
                 projectId: "homepage-71aa8",
                 storageBucket: "homepage-71aa8.firebasestorage.app",
@@ -936,7 +951,7 @@
             };
             appId = configToUse.appId; // Use appId from fallback config
         }
-        
+
         // Inisialisasi Firebase
         let app;
         let db;
@@ -955,6 +970,8 @@
         let currentUserId = null; // Untuk menyimpan ID pengguna yang terautentikasi
         let albumToDeleteId = null; // Untuk menyimpan ID album yang akan dihapus
         let albumToDeleteName = ''; // Untuk menyimpan nama album yang akan dihapus
+        let selectedMediaId = null; // Untuk menyimpan ID media yang dipilih untuk dipindahkan
+        let selectedMediaType = null; // Untuk menyimpan tipe media yang dipilih untuk dipindahkan
 
         // Cloudinary Accounts Configuration
         const cloudinaryAccounts = [
@@ -977,18 +994,18 @@
             selectedVideoAlbum: '', // Menyimpan ID album yang dipilih untuk galeri video
             albums: [] // Menyimpan album yang diambil
         };
-        
+
         // Fungsi untuk menampilkan notifikasi
         function showNotification(message, type = 'success', duration = 3000) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.className = `notification show ${type}`;
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, duration);
         }
-        
+
         // Fungsi untuk berpindah tab
         function switchTab(tabId) {
             console.log('Switching to tab:', tabId);
@@ -996,12 +1013,12 @@
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
+
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
+
             // Activate selected tab and show its content
             const targetButton = document.querySelector(`.tab-button[onclick*="${tabId}"]`);
             const targetContent = document.getElementById(tabId);
@@ -1013,7 +1030,7 @@
                 console.error('Target tab button or content not found for:', tabId);
                 return;
             }
-            
+
             // Muat galeri atau album jika diperlukan, hanya jika user sudah login
             if (currentUserId) {
                 if (tabId === 'gallery-photo') {
@@ -1022,6 +1039,11 @@
                     loadGallery('video');
                 } else if (tabId === 'albums') {
                     loadAlbums();
+                } else if (tabId === 'upload') {
+                    // Do nothing specific when navigating to upload, but ensure albums are loaded for the dropdown
+                    if (state.albums.length === 0) {
+                        loadAlbums();
+                    }
                 }
             } else {
                 showNotification('Silakan login untuk mengakses fitur ini.', 'error');
@@ -1034,6 +1056,8 @@
         const newAlbumNameInput = document.getElementById('newAlbumName');
         const confirmModal = document.getElementById('confirmModal');
         const albumToDeleteNameSpan = document.getElementById('albumToDeleteName');
+        const moveToAlbumModal = document.getElementById('moveToAlbumModal');
+        const selectTargetAlbumDropdown = document.getElementById('selectTargetAlbum');
 
         function openCreateAlbumModal() {
             console.log('Opening create album modal...');
@@ -1070,7 +1094,7 @@
                     name: albumName,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     mediaCount: 0,
-                    likes: 0 
+                    likes: 0
                 });
                 showNotification(`Album "${albumName}" berhasil dibuat!`);
                 closeCreateAlbumModal();
@@ -1092,11 +1116,13 @@
             const photoAlbumFilter = document.getElementById('photoAlbumFilter');
             const videoAlbumFilter = document.getElementById('videoAlbumFilter');
             const albumSelectUpload = document.getElementById('albumSelectUpload');
+            const selectTargetAlbumDropdown = document.getElementById('selectTargetAlbum');
 
             // Clear previous options and add default
             photoAlbumFilter.innerHTML = '<option value="">Semua Album</option>';
             videoAlbumFilter.innerHTML = '<option value="">Semua Album</option>';
             albumSelectUpload.innerHTML = '<option value="">Tidak ada album</option>';
+            selectTargetAlbumDropdown.innerHTML = '<option value="">-- Pilih Album --</option>';
             albumListEl.innerHTML = '<div class="loading"><div class="spinner"></div>Memuat album...</div>';
 
             try {
@@ -1139,6 +1165,7 @@
                             photoAlbumFilter.innerHTML += option;
                             videoAlbumFilter.innerHTML += option;
                             albumSelectUpload.innerHTML += option;
+                            selectTargetAlbumDropdown.innerHTML += option; // Tambahkan ke dropdown pindah album
                         });
 
                         // Set album yang dipilih dalam filter jika sebelumnya dipilih
@@ -1212,7 +1239,7 @@
 
                 // 2. Hapus dokumen album
                 await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(albumToDeleteId).delete();
-                
+
                 showNotification(`Album "${albumToDeleteName}" berhasil dihapus! Media terkait kini tidak memiliki album.`);
                 closeConfirmModal();
                 loadAlbums(); // Muat ulang daftar album
@@ -1250,7 +1277,7 @@
                 showNotification('Tidak ada file yang dipilih untuk diunggah.', 'error');
                 return;
             }
-            
+
             if (!currentUserId) {
                 showNotification('Autentikasi diperlukan untuk mengunggah file. Silakan login.', 'error');
                 console.error('Upload failed: currentUserId is null.');
@@ -1280,15 +1307,15 @@
                         </div>
                     </div>
                 `;
-                
+
                 uploadStatus.insertAdjacentHTML('afterbegin', itemHtml);
                 const progressBar = document.getElementById(`progress-${itemId}`);
                 const percentText = document.querySelector(`#${itemId} .upload-percent`);
-                
+
                 const formData = new FormData();
                 formData.append('file', file);
                 formData.append('upload_preset', uploadPreset);
-                
+
                 try {
                     // Menggunakan XMLHttpRequest untuk pelacakan kemajuan
                     const xhr = new XMLHttpRequest();
@@ -1318,12 +1345,12 @@
 
                     const data = await responsePromise;
                     console.log('Cloudinary upload successful:', data);
-                    
+
                     // Tampilkan preview
-                    const preview = data.resource_type === 'image' ? 
+                    const preview = data.resource_type === 'image' ?
                         `<img src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;">` :
                         `<video src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;" controls></video>`;
-                    
+
                     document.getElementById(itemId).insertAdjacentHTML('beforeend', `
                         <div style="margin-top: 10px;">
                             ${preview}
@@ -1332,7 +1359,7 @@
                             </div>
                         </div>
                     `);
-                    
+
                     // Simpan ke Firestore
                     const collectionPath = `artifacts/${appId}/users/${currentUserId}/${data.resource_type === 'image' ? 'fotos' : 'videos'}`;
                     await db.collection(collectionPath).add({
@@ -1355,13 +1382,21 @@
                         });
                         console.log('Album media count updated.');
                     }
-                    
+
                     showNotification(`File ${file.name} berhasil diunggah ke ${data.resource_type === 'image' ? 'galeri foto' : 'galeri video'}!`);
-                    
+
                     // Muat ulang galeri
                     loadGallery(data.resource_type === 'image' ? 'photo' : 'video');
                     loadAlbums(); // Perbarui jumlah album
-                    
+
+                    // Clear the file input and switch back to the main gallery tab
+                    document.getElementById('fileInput').value = '';
+                    if (data.resource_type === 'image') {
+                        switchTab('gallery-photo');
+                    } else {
+                        switchTab('gallery-video');
+                    }
+
                 } catch (error) {
                     console.error('Upload process failed:', error);
                     document.getElementById(itemId).insertAdjacentHTML('beforeend', `
@@ -1370,18 +1405,20 @@
                         </div>
                     `);
                     progressBar.style.background = '#dc3545';
-                    
+
                     showNotification(`Gagal mengunggah ${file.name}: ${error.message}`, 'error');
                 }
             }
-            
-            // Reset input file
-            document.getElementById('fileInput').value = '';
+
+            // Clear the upload status section
+            setTimeout(() => {
+                document.getElementById('uploadStatus').innerHTML = '';
+            }, 5000);
         }
-        
+
         // Event listener untuk input file
         document.getElementById('fileInput').addEventListener('change', uploadFiles);
-        
+
         // Fungsi untuk memuat galeri
         async function loadGallery(type) {
             if (!currentUserId) {
@@ -1395,13 +1432,13 @@
             const paginationEl = document.getElementById(`${type}Pagination`);
             const countEl = document.getElementById(`${type}Count`);
             const selectedAlbumId = type === 'photo' ? state.selectedPhotoAlbum : state.selectedVideoAlbum;
-            
+
             // Tampilkan status memuat
             galleryEl.innerHTML = '<div class="loading"><div class="spinner"></div>Memuat...</div>';
-            
+
             try {
                 let baseQuery = db.collection(`artifacts/${appId}/users/${currentUserId}/${collectionName}`);
-                
+
                 // Terapkan filter album jika dipilih
                 if (selectedAlbumId) {
                     baseQuery = baseQuery.where('albumId', '==', selectedAlbumId);
@@ -1414,30 +1451,30 @@
                 const countSnapshot = await baseQuery.get();
                 const totalItems = countSnapshot.size;
                 state[`${type}Total`] = totalItems;
-                
+
                 // Perbarui tampilan jumlah
                 countEl.textContent = `${totalItems} ${type === 'photo' ? 'foto' : 'video'}`;
-                
+
                 // Kueri dengan paginasi
                 let query = baseQuery
                     .orderBy('date', 'desc')
                     .limit(state.itemsPerPage);
-                
+
                 // Terapkan startAfter untuk halaman berikutnya
                 if (state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`] > 1 && state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`]) {
                     query = query.startAfter(state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`]);
                 }
-                
+
                 const snapshot = await query.get();
                 console.log(`Fetched ${snapshot.size} items for ${type} gallery.`);
-                
+
                 // Simpan dokumen terakhir untuk paginasi halaman berikutnya
                 if (!snapshot.empty) {
                     state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = snapshot.docs[snapshot.docs.length - 1];
                 } else {
                     state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = null; // Tidak ada dokumen lagi
                 }
-                
+
                 // Render galeri
                 if (snapshot.empty) {
                     galleryEl.innerHTML = `
@@ -1450,13 +1487,13 @@
                     paginationEl.innerHTML = '';
                     return;
                 }
-                
+
                 galleryEl.innerHTML = ''; // Bersihkan konten sebelumnya
-                
+
                 snapshot.forEach(doc => {
                     const media = { id: doc.id, ...doc.data() };
                     let dateText = 'Tanggal tidak tersedia';
-                    
+
                     if (media.date && media.date.toDate) {
                         const date = media.date.toDate();
                         dateText = date.toLocaleDateString('id-ID', {
@@ -1465,12 +1502,12 @@
                             year: 'numeric'
                         });
                     }
-                    
+
                     galleryEl.innerHTML += `
                         <div class="media-card">
                             <div class="media-content">
-                                ${media.type === 'image' ? 
-                                    `<img src="${media.url}" alt="${media.name}">` : 
+                                ${media.type === 'image' ?
+                                    `<img src="${media.url}" alt="${media.name}">` :
                                     `<video src="${media.url}" controls></video>`}
                                 <div class="media-overlay">
                                     <span class="media-type">${media.type === 'image' ? 'Foto' : 'Video'}</span>
@@ -1478,12 +1515,15 @@
                                 </div>
                             </div>
                             <div class="media-actions">
-                                <button class="action-btn like-btn ${media.likes > 0 ? 'liked' : ''}" title="Suka" 
+                                <button class="action-btn like-btn ${media.likes > 0 ? 'liked' : ''}" title="Suka"
                                     onclick="toggleLike('${media.id}', '${media.type}', ${media.likes || 0})">
                                     <i class="fas fa-heart"></i> <span class="like-count">${media.likes || 0}</span>
                                 </button>
                                 <button class="action-btn" title="Salin link" onclick="copyToClipboard('${media.url}')">
                                     <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="action-btn" title="Pindahkan ke Album" onclick="openMoveToAlbumModal('${media.id}', '${media.type}')">
+                                    <i class="fas fa-folder-plus"></i>
                                 </button>
                                 <a href="${media.url}" download class="action-btn" title="Download">
                                     <i class="fas fa-download"></i>
@@ -1495,10 +1535,10 @@
                         </div>
                     `;
                 });
-                
+
                 // Render paginasi
                 renderPagination(type, totalItems);
-                
+
             } catch (error) {
                 console.error('Error loading gallery:', error);
                 galleryEl.innerHTML = `<div class="empty-state">
@@ -1506,11 +1546,11 @@
                     <h3>Terjadi kesalahan</h3>
                     <p>${error.message}</p>
                 </div>`;
-                
+
                 showNotification(`Gagal memuat galeri: ${error.message}`, 'error');
             }
         }
-        
+
         // Fungsi untuk menyalin ke clipboard
         function copyToClipboard(text) {
             // Menggunakan document.execCommand('copy') untuk kompatibilitas iframe yang lebih baik
@@ -1527,52 +1567,112 @@
             }
             document.body.removeChild(textarea);
         }
-        
+
+        // Fungsi untuk membuka modal pindah ke album
+        function openMoveToAlbumModal(mediaId, mediaType) {
+            if (!currentUserId) {
+                showNotification('Silakan login untuk memindahkan media ke album.', 'error');
+                return;
+            }
+            selectedMediaId = mediaId;
+            selectedMediaType = mediaType;
+            moveToAlbumModal.style.display = 'flex';
+        }
+
+        // Fungsi untuk menutup modal pindah ke album
+        function closeMoveToAlbumModal() {
+            moveToAlbumModal.style.display = 'none';
+            selectedMediaId = null;
+            selectedMediaType = null;
+        }
+
+        // Fungsi untuk memindahkan media ke album
+        async function moveMediaToAlbum() {
+            if (!selectedMediaId || !selectedMediaType) {
+                showNotification('Kesalahan: Tidak ada media yang dipilih untuk dipindahkan.', 'error');
+                closeMoveToAlbumModal();
+                return;
+            }
+
+            const targetAlbumId = document.getElementById('selectTargetAlbum').value;
+            if (!targetAlbumId) {
+                showNotification('Silakan pilih album tujuan.', 'error');
+                return;
+            }
+
+            const collectionPath = `artifacts/${appId}/users/${currentUserId}/${selectedMediaType === 'image' ? 'fotos' : 'videos'}`;
+            const mediaRef = db.collection(collectionPath).doc(selectedMediaId);
+
+            try {
+                await mediaRef.update({ albumId: targetAlbumId });
+
+                // Perbarui hitungan di album lama (jika ada) dan album baru
+                const oldAlbumSnapshot = await mediaRef.get();
+                const oldAlbumId = oldAlbumSnapshot.data()?.albumId;
+                if (oldAlbumId && oldAlbumId !== targetAlbumId) {
+                    await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(oldAlbumId).update({
+                        mediaCount: firebase.firestore.FieldValue.increment(-1)
+                    });
+                }
+                await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(targetAlbumId).update({
+                    mediaCount: firebase.firestore.FieldValue.increment(1)
+                });
+
+                showNotification('Media berhasil dipindahkan ke album!');
+                closeMoveToAlbumModal();
+                loadGallery(selectedMediaType === 'image' ? 'photo' : 'video'); // Refresh galeri
+                loadAlbums(); // Refresh daftar album
+            } catch (error) {
+                console.error('Error moving media to album:', error);
+                showNotification(`Gagal memindahkan media: ${error.message}`, 'error');
+            }
+        }
+
         // Fungsi untuk merender paginasi
         function renderPagination(type, totalItems) {
             const paginationEl = document.getElementById(`${type}Pagination`);
             const currentPage = state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`];
             const totalPages = Math.ceil(totalItems / state.itemsPerPage);
-            
+
             if (totalPages <= 1) {
                 paginationEl.innerHTML = '';
                 return;
             }
-            
+
             let paginationHtml = '';
-            
+
             // Tombol Sebelumnya
             paginationHtml += `
-                <button class="page-btn" onclick="changePage('${type}', ${currentPage - 1})" 
+                <button class="page-btn" onclick="changePage('${type}', ${currentPage - 1})"
                     ${currentPage === 1 ? 'disabled' : ''}>
                     <i class="fas fa-chevron-left"></i>
                 </button>
             `;
-            
+
             // Tampilkan beberapa halaman di sekitar halaman saat ini
             const startPage = Math.max(1, currentPage - 2);
             const endPage = Math.min(totalPages, currentPage + 2);
-            
+
             for (let i = startPage; i <= endPage; i++) {
                 paginationHtml += `
-                    <button class="page-btn ${i === currentPage ? 'active' : ''}" 
+                    <button class="page-btn ${i === currentPage ? 'active' : ''}"
                         onclick="changePage('${type}', ${i})">
                         ${i}
                     </button>
                 `;
             }
-            
+
             // Tombol Berikutnya
             paginationHtml += `
-                <button class="page-btn" onclick="changePage('${type}', ${currentPage + 1})" 
+                <button class="page-btn" onclick="changePage('${type}', ${currentPage + 1})"
                     ${currentPage === totalPages ? 'disabled' : ''}>
                     <i class="fas fa-chevron-right"></i>
                 </button>
             `;
-            
+
             paginationEl.innerHTML = paginationHtml;
         }
-        
+
         // Fungsi untuk mengubah halaman
         function changePage(type, page) {
             if (!currentUserId) {
@@ -1580,12 +1680,12 @@
                 return;
             }
             state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`] = page;
-            
+
             // Reset lastDoc jika kembali ke halaman pertama atau navigasi signifikan
             if (page === 1) {
                 state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = null;
             }
-            
+
             loadGallery(type);
         }
 
@@ -1626,43 +1726,43 @@
         // Event listener untuk drag and drop
         document.addEventListener('DOMContentLoaded', () => {
             const dropArea = document.querySelector('.upload-box');
-            
+
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 dropArea.addEventListener(eventName, preventDefaults, false);
             });
-            
+
             function preventDefaults(e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            
+
             ['dragenter', 'dragover'].forEach(eventName => {
                 dropArea.addEventListener(eventName, highlight, false);
             });
-            
+
             ['dragleave', 'drop'].forEach(eventName => {
                 dropArea.addEventListener(eventName, unhighlight, false);
             });
-            
+
             function highlight() {
                 dropArea.style.borderColor = '#4361ee';
                 dropArea.style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
             }
-            
+
             function unhighlight() {
                 dropArea.style.borderColor = '#dee2e6';
                 dropArea.style.backgroundColor = '#f8f9fa';
             }
-            
+
             dropArea.addEventListener('drop', handleDrop, false);
-            
+
             function handleDrop(e) {
                 const dt = e.dataTransfer;
                 const files = dt.files;
                 document.getElementById('fileInput').files = files;
                 // Unggahan akan dipicu secara otomatis oleh event 'change' pada fileInput
                 // setelah file dipilih (baik dari klik atau drag/drop).
-                uploadFiles(); 
+                uploadFiles();
             }
 
             // Isi dropdown pemilihan akun Cloudinary
@@ -1698,7 +1798,7 @@
                 console.log('Main App: No user authenticated. Redirecting to login.');
                 // Hanya arahkan ke login jika belum di halaman login
                 if (window.location.pathname !== '/login.html' && window.location.pathname !== '/login') {
-                    window.location.href = 'login.html'; 
+                    window.location.href = 'login.html';
                 }
             }
         }, error => {
@@ -1706,7 +1806,7 @@
             showNotification(`Kesalahan autentikasi: ${error.message}`, 'error');
             // Jika ada kesalahan autentikasi saat memuat, arahkan ke login juga
             if (window.location.pathname !== '/login.html' && window.location.pathname !== '/login') {
-                window.location.href = 'login.html'; 
+                window.location.href = 'login.html';
             }
         });
 
@@ -1718,8 +1818,10 @@
             if (event.target == confirmModal) {
                 closeConfirmModal();
             }
+            if (event.target == moveToAlbumModal) {
+                closeMoveToAlbumModal();
+            }
         });
     </script>
 </body>
 </html>
-
