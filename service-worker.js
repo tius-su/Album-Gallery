@@ -6,15 +6,15 @@ const urlsToCache = [
     'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js',
     'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js',
     'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js',
-    // Add paths for your PWA icons here
-    'icon-72x72.png',
-    'icon-96x96.png',
-    'icon-128x128.png',
-    'icon-144x144.png',
-    'icon-152x152.png',
-    'icon-192x192.png',
-    'icon-384x384.png',
-    'icon-512x512.png'
+    // Add paths for your PWA icons here, assuming they are in the root directory
+    '/icon-72x72.png',
+    '/icon-96x96.png',
+    '/icon-128x128.png',
+    '/icon-144x144.png',
+    '/icon-152x152.png',
+    '/icon-192x192.png',
+    '/icon-384x384.png',
+    '/icon-512x512.png'
 ];
 
 // Install event: caches static assets
@@ -66,5 +66,4 @@ self.addEventListener('fetch', event => {
             })
     );
 });
-
 
