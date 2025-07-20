@@ -898,10 +898,13 @@
         // PENTING: Jangan masukkan apiKey, authDomain, dll. secara manual di sini jika Anda menjalankan di Canvas.
         // __firebase_config akan disediakan secara otomatis.
         let configToUse = {};
+        let appId = 'default-app-id'; // Default fallback for appId
+
         if (typeof __firebase_config !== 'undefined') {
             try {
                 configToUse = JSON.parse(__firebase_config);
-                console.log('Main App: Using Firebase config from Canvas environment.');
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id-from-canvas'; // Get appId from Canvas if available
+                console.log('Main App: Using Firebase config from Canvas environment. App ID:', appId);
             } catch (e) {
                 console.error('Main App: Error parsing __firebase_config from Canvas:', e);
                 // Fallback to manual config if parsing fails
@@ -911,8 +914,9 @@
                     projectId: "homepage-71aa8",
                     storageBucket: "homepage-71aa8.firebasestorage.app",
                     messagingSenderId: "238347756112",
-                    appId: "1:238347756112:web:6b33d6772f3568385f2755"
+                    appId: "1:238347756112:web:6b33d6772f3568385f2755" // Fallback appId for local testing
                 };
+                appId = configToUse.appId; // Use appId from fallback config
                 showNotification('Main App: Gagal memuat konfigurasi Firebase dari Canvas. Menggunakan konfigurasi fallback.', 'error');
             }
         } else {
@@ -924,8 +928,9 @@
                 projectId: "homepage-71aa8",
                 storageBucket: "homepage-71aa8.firebasestorage.app",
                 messagingSenderId: "238347756112",
-                appId: "1:238347756112:web:6b33d6772f3568385f2755"
+                appId: "1:238347756112:web:6b33d6772f3568385f2755" // Fallback appId for local testing
             };
+            appId = configToUse.appId; // Use appId from fallback config
         }
         
         // Inisialisasi Firebase
@@ -1077,7 +1082,7 @@
                 console.log('User not authenticated, cannot load albums.');
                 return;
             }
-            console.log('Loading albums for user:', currentUserId);
+            console.log('Loading albums for user:', currentUserId, 'with appId:', appId);
 
             const albumListEl = document.getElementById('albumList');
             const photoAlbumFilter = document.getElementById('photoAlbumFilter');
@@ -1379,7 +1384,7 @@
                 console.log('User not authenticated, cannot load gallery.');
                 return;
             }
-            console.log(`Loading ${type} gallery for user: ${currentUserId}`);
+            console.log(`Loading ${type} gallery for user: ${currentUserId}, with appId: ${appId}`);
 
             const collectionName = type === 'photo' ? 'fotos' : 'videos';
             const galleryEl = document.getElementById(`${type}Gallery`);
