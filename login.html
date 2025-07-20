@@ -139,22 +139,53 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <script>
-        // Firebase Configuration (using global variables if available)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            const firebaseConfig = {
-  apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
-  authDomain: "homepage-71aa8.firebaseapp.com",
-  projectId: "homepage-71aa8",
-  storageBucket: "homepage-71aa8.firebasestorage.app",
-  messagingSenderId: "238347756112",
-  appId: "1:238347756112:web:6b33d6772f3568385f2755"
-};
+        // Firebase Configuration (menggunakan variabel global yang disediakan oleh Canvas)
+        // PENTING: Jangan masukkan apiKey, authDomain, dll. secara manual di sini jika Anda menjalankan di Canvas.
+        // __firebase_config akan disediakan secara otomatis.
+        let configToUse = {};
+        if (typeof __firebase_config !== 'undefined') {
+            try {
+                configToUse = JSON.parse(__firebase_config);
+                console.log('Login: Using Firebase config from Canvas environment.');
+            } catch (e) {
+                console.error('Login: Error parsing __firebase_config from Canvas:', e);
+                // Fallback to manual config if parsing fails
+                configToUse = {
+                    apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE", // Ganti dengan API Key Anda jika tidak di Canvas
+                    authDomain: "homepage-71aa8.firebaseapp.com",
+                    projectId: "homepage-71aa8",
+                    storageBucket: "homepage-71aa8.firebasestorage.app",
+                    messagingSenderId: "238347756112",
+                    appId: "1:238347756112:web:6b33d6772f3568385f2755"
+                };
+                showNotification('Login: Gagal memuat konfigurasi Firebase dari Canvas. Menggunakan konfigurasi fallback.', 'error');
+            }
+        } else {
+            console.warn('Login: __firebase_config not found. Using fallback Firebase config (for local development).');
+            // Fallback for local development outside Canvas
+            configToUse = {
+                apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE", // Ganti dengan API Key Anda jika tidak di Canvas
+                authDomain: "homepage-71aa8.firebaseapp.com",
+                projectId: "homepage-71aa8",
+                storageBucket: "homepage-71aa8.firebasestorage.app",
+                messagingSenderId: "238347756112",
+                appId: "1:238347756112:web:6b33d6772f3568385f2755"
+            };
+        }
         
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        // Inisialisasi Firebase
+        let app;
+        let auth;
+        try {
+            app = firebase.initializeApp(configToUse);
+            auth = firebase.auth();
+            console.log('Login: Firebase initialized successfully.');
+        } catch (e) {
+            console.error('Login: Firebase initialization failed:', e);
+            showNotification(`Login: Gagal menginisialisasi Firebase: ${e.message}.`, 'error');
+        }
 
-        // Function to display notifications
+        // Fungsi untuk menampilkan notifikasi
         function showNotification(message, type = 'success', duration = 3000) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -175,12 +206,14 @@
             }
 
             try {
+                console.log('Attempting to sign in with email:', email);
                 await auth.signInWithEmailAndPassword(email, password);
+                console.log('Sign-in successful!');
                 showNotification('Login berhasil! Mengarahkan ke galeri...', 'success');
                 // Redirect to the main gallery page
                 window.location.href = 'index.html'; 
             } catch (error) {
-                console.error('Login error:', error);
+                console.error('Login error:', error.code, error.message);
                 let errorMessage = 'Terjadi kesalahan saat login.';
                 switch (error.code) {
                     case 'auth/invalid-email':
@@ -213,10 +246,14 @@
         // Check if user is already logged in on page load
         auth.onAuthStateChanged(user => {
             if (user) {
+                console.log('Login: User already authenticated, redirecting to index.html');
                 // If user is already logged in, redirect to main gallery
                 window.location.href = 'index.html';
+            } else {
+                console.log('Login: No user authenticated. Staying on login page.');
             }
         });
     </script>
 </body>
 </html>
+
