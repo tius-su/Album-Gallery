@@ -4,8 +4,8 @@
   "description": "Galeri foto dan video gabungan dari Pexels dan Pixabay.",
 "start_url": "/Album-Gallery/index.html",
   "display": "standalone",
-  "background_color": "#f0f0f0",
-  "theme_color": "#2196F3",
+  "background_color": "#f5f7fa",
+  "theme_color": "#4361ee",
   "icons": [
     {
       "src": "icon-152x152.png",
