@@ -2,7 +2,7 @@
   "name": "Galeri Media APPs",
   "short_name": "Galleri Album Tius",
   "description": "Galeri foto dan video gabungan dari Pexels dan Pixabay.",
-"start_url": "/Album-Gallery/index.html/",
+"start_url": "/Album-Gallery/index.html",
   "display": "standalone",
   "background_color": "#f0f0f0",
   "theme_color": "#2196F3",
