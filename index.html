@@ -6,9 +6,9 @@
     <title>Gallery Media - Foto & Video</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-    <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json">
 
     <meta name="theme-color" content="#4361ee">
     <style>
@@ -296,7 +296,7 @@
             height: 100%;
             object-fit: contain; /* <-- UBAH KE INI: gambar/video akan terlihat semua */
             display: block;
-            background-color: #000; /* Opsional: mengisi ruang kosong dengan warna hitam */
+            background-color: transparent; /* <-- UBAH KE INI: latar belakang transparan */
         }
 
         .media-overlay {
@@ -1464,7 +1464,7 @@
                 await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(albumToDeleteId).delete();
 
                 // 3. Hapus juga dari koleksi public_albums jika ada
-                await db.collection('public_albums').doc(albumToDeleteId).delete(); // Tambahkan baris ini
+                await db.collection('public_albums').doc(albumToDeleteId).delete();
 
 
                 showNotification(`Album "${albumToDeleteName}" berhasil dihapus! Media terkait kini tidak memiliki album.`);
@@ -1801,7 +1801,7 @@
                     <p>${error.message}</p>
                 </div>`;
 
-                showNotification(`Gagal memuat galeri: ${e.message}`, 'error');
+                showNotification(`Gagal memuat galeri: ${error.message}`, 'error');
             }
         }
 
@@ -1956,7 +1956,7 @@
                 loadAlbums(); // Refresh daftar album
             } catch (error) {
                 console.error('Error moving media to album:', error);
-                showNotification(`Gagal memindahkan media: ${e.message}`, 'error');
+                showNotification(`Gagal memindahkan media: ${error.message}`, 'error');
             }
         }
 
@@ -2039,7 +2039,7 @@
                 // Listener onSnapshot di loadGallery akan secara otomatis memperbarui UI
             } catch (error) {
                 console.error('Error liking media:', error);
-                showNotification(`Gagal menyukai media: ${e.message}`, 'error');
+                showNotification(`Gagal menyukai media: ${error.message}`, 'error');
             }
         }
 
@@ -2051,7 +2051,7 @@
                 window.location.href = 'login.html'; // Arahkan ke halaman login
             } catch (error) {
                 console.error('Error logging out:', error);
-                showNotification(`Gagal keluar: ${e.message}`, 'error');
+                showNotification(`Gagal keluar: ${error.message}`, 'error');
             }
         }
 
@@ -2163,7 +2163,7 @@
             }
         }, error => {
             console.error('Main App: Error during onAuthStateChanged:', error);
-            showNotification(`Kesalahan autentikasi: ${e.message}`, 'error');
+            showNotification(`Kesalahan autentikasi: ${error.message}`, 'error');
             // Jika ada kesalahan autentikasi saat memuat, arahkan ke login juga
             if (window.location.pathname !== '/login.html' && window.location.pathname !== '/login') {
                 window.location.href = 'login.html';
