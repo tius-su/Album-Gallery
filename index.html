@@ -6,8 +6,9 @@
     <title>Gallery Media - Foto & Video</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="manifest" href="manifest.json">
 
     <meta name="theme-color" content="#4361ee">
     <style>
@@ -48,7 +49,7 @@
             text-align: center;
             margin-bottom: 30px;
             padding: 20px 0;
-            position: relative;
+            position: relative; /* For logout button */
         }
 
         h1 {
@@ -66,6 +67,7 @@
             margin: 0 auto 20px;
         }
 
+        /* Logout Button */
         .logout-btn {
             position: absolute;
             top: 20px;
@@ -88,13 +90,15 @@
             box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
         }
 
+        /* User ID Display */
         .user-id-display {
             font-size: 0.8rem;
             color: var(--gray);
             margin-top: 10px;
-            word-break: break-all;
+            word-break: break-all; /* Ensure long IDs wrap */
         }
 
+        /* Tab Styles */
         .tabs-container {
             background: white;
             border-radius: var(--border-radius);
@@ -107,7 +111,7 @@
             display: flex;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 0 15px;
-            overflow-x: auto;
+            overflow-x: auto; /* Allow horizontal scrolling for many tabs */
         }
 
         .tab-button {
@@ -120,7 +124,7 @@
             cursor: pointer;
             position: relative;
             transition: var(--transition);
-            white-space: nowrap;
+            white-space: nowrap; /* Prevent text wrapping */
         }
 
         .tab-button:hover {
@@ -151,6 +155,7 @@
             display: block;
         }
 
+        /* Upload Section */
         .upload-container {
             background: white;
             border-radius: var(--border-radius);
@@ -214,13 +219,14 @@
             font-size: 1.2rem;
         }
 
+        /* Gallery Styles */
         .gallery-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 10px; /* Spacing between items */
         }
 
         .gallery-controls {
@@ -268,7 +274,7 @@
             overflow: hidden;
             box-shadow: var(--box-shadow);
             transition: var(--transition);
-            position: relative;
+            position: relative; /* For like button positioning */
         }
 
         .media-card:hover {
@@ -326,7 +332,7 @@
             padding: 15px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: center; /* Align items vertically */
         }
 
         .action-btn {
@@ -337,7 +343,7 @@
             font-size: 1.1rem;
             transition: var(--transition);
             padding: 5px;
-            display: flex;
+            display: flex; /* For aligning icon and text */
             align-items: center;
             gap: 5px;
         }
@@ -348,7 +354,7 @@
         }
 
         .like-btn.liked {
-            color: #e74c3c;
+            color: #e74c3c; /* Red color for liked state */
         }
 
         .like-count {
@@ -356,6 +362,7 @@
             color: var(--gray);
         }
 
+        /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
@@ -396,6 +403,7 @@
             border-color: var(--primary);
         }
 
+        /* Loading */
         .loading {
             text-align: center;
             padding: 40px;
@@ -417,6 +425,7 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Upload Status */
         .upload-status {
             margin-top: 20px;
         }
@@ -458,6 +467,7 @@
             transition: width 0.4s ease;
         }
 
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .gallery-container {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -478,7 +488,7 @@
             }
 
             .logout-btn {
-                position: static;
+                position: static; /* Adjust position for smaller screens */
                 margin-top: 15px;
                 width: fit-content;
             }
@@ -551,16 +561,17 @@
             background: #2ecc71;
         }
 
+        /* Modal Styles */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1001;
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
             left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -647,7 +658,7 @@
 
         .album-list-container {
             margin-top: 20px;
-            max-height: 400px;
+            max-height: 400px; /* Limit height for scrollability */
             overflow-y: auto;
             border: 1px solid var(--light-gray);
             border-radius: var(--border-radius);
@@ -696,6 +707,7 @@
             background: #c0392b;
         }
 
+        /* Styling for the dropdown in the upload section */
         #albumSelectUpload, #cloudinaryAccountSelect, #selectTargetAlbum, #selectTargetAlbumCopy {
             margin-top: 10px;
             margin-bottom: 20px;
@@ -711,6 +723,16 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Move to Album Modal */
+        #moveToAlbumModal {
+            class: "modal"
+        }
+
+        /* Copy to Album Modal */
+        #copyToAlbumModal {
+            class: "modal"
         }
 
         .share-album-btn {
@@ -741,7 +763,7 @@
         .public-album-url {
             font-size: 0.9rem;
             color: var(--gray);
-            overflow-x: auto;
+            overflow-x: auto; /* Enable horizontal scrolling for long URLs */
         }
 
         .copy-url-btn {
@@ -959,39 +981,43 @@
             });
         }
 
-        // Firebase Configuration
+        // Firebase Configuration (menggunakan variabel global yang disediakan oleh Canvas)
+        // PENTING: Jangan masukkan apiKey, authDomain, dll. secara manual di sini jika Anda menjalankan di Canvas.
+        // __firebase_config akan disediakan secara otomatis.
         let configToUse = {};
-        let appId = 'default-app-id';
+        let appId = 'default-app-id'; // Default fallback for appId
 
         if (typeof __firebase_config !== 'undefined') {
             try {
                 configToUse = JSON.parse(__firebase_config);
-                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id-from-canvas';
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id-from-canvas'; // Get appId from Canvas if available
                 console.log('Main App: Using Firebase config from Canvas environment. App ID:', appId);
             } catch (e) {
                 console.error('Main App: Error parsing __firebase_config from Canvas:', e);
+                // Fallback to manual config if parsing fails
                 configToUse = {
                     apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
                     authDomain: "homepage-71aa8.firebaseapp.com",
                     projectId: "homepage-71aa8",
                     storageBucket: "homepage-71aa8.firebasestorage.app",
                     messagingSenderId: "238347756112",
-                    appId: "1:238347756112:web:6b33d6772f3568385f2755"
+                    appId: "1:238347756112:web:6b33d6772f3568385f2755" // Fallback appId for local testing
                 };
-                appId = configToUse.appId;
+                appId = configToUse.appId; // Use appId from fallback config
                 showNotification('Main App: Gagal memuat konfigurasi Firebase dari Canvas. Menggunakan konfigurasi fallback.', 'error');
             }
         } else {
             console.warn('Main App: __firebase_config not found. Using fallback Firebase config (for local development).');
+            // Fallback for local development outside Canvas
             configToUse = {
                 apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
                 authDomain: "homepage-71aa8.firebaseapp.com",
                 projectId: "homepage-71aa8",
                 storageBucket: "homepage-71aa8.firebasestorage.app",
                 messagingSenderId: "238347756112",
-                appId: "1:238347756112:web:6b33d6772f3568385f2755"
+                appId: "1:238347756112:web:6b33d6772f3568385f2755" // Fallback appId for local testing
             };
-            appId = configToUse.appId;
+            appId = configToUse.appId; // Use appId from fallback config
         }
 
         // Inisialisasi Firebase
@@ -1009,20 +1035,21 @@
             showNotification(`Main App: Gagal menginisialisasi Firebase: ${e.message}. Pastikan API Key dan Project ID benar.`, 'error');
         }
 
-        let currentUserId = null;
-        let albumToDeleteId = null;
-        let albumToDeleteName = '';
-        let selectedMediaId = null;
-        let selectedMediaType = null;
-        let selectedMediaIdCopy = null;
-        let currentPublicAlbumId = null;
+        let currentUserId = null; // Untuk menyimpan ID pengguna yang terautentikasi
+        let albumToDeleteId = null; // Untuk menyimpan ID album yang akan dihapus
+        let albumToDeleteName = ''; // Untuk menyimpan nama album yang akan dihapus
+        let selectedMediaId = null; // Untuk menyimpan ID media yang dipilih untuk dipindahkan
+        let selectedMediaType = null; // Untuk menyimpan tipe media yang dipilih untuk dipindahkan
+        let selectedMediaIdCopy = null; // Untuk menyimpan ID gambar yang dipilih untuk disalin
+        let currentPublicAlbumId = null; // Menyimpan ID album yang sedang dibagikan
 
         // Cloudinary Accounts Configuration
         const cloudinaryAccounts = [
             { name: 'Akun Utama', cloudName: 'dyvoydnx8', uploadPreset: 'home-pages' },
             { name: 'Akun Cadangan', cloudName: 'dk4ltjljk', uploadPreset: 'album-gallery' }
+            // Tambahkan akun lain jika diperlukan
         ];
-        let activeCloudinaryAccount = cloudinaryAccounts[0];
+        let activeCloudinaryAccount = cloudinaryAccounts[0]; // Default ke akun pertama
 
         // Application State
         const state = {
@@ -1033,9 +1060,9 @@
             videoTotal: 0,
             lastPhotoDoc: null,
             lastVideoDoc: null,
-            selectedPhotoAlbum: '',
-            selectedVideoAlbum: '',
-            albums: []
+            selectedPhotoAlbum: '', // Menyimpan ID album yang dipilih untuk galeri foto
+            selectedVideoAlbum: '', // Menyimpan ID album yang dipilih untuk galeri video
+            albums: [] // Menyimpan album yang diambil
         };
 
         // Fungsi untuk menampilkan notifikasi
@@ -1052,14 +1079,17 @@
         // Fungsi untuk berpindah tab
         function switchTab(tabId) {
             console.log('Switching to tab:', tabId);
+            // Update tab buttons
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
             });
 
+            // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
 
+            // Activate selected tab and show its content
             const targetButton = document.querySelector(`.tab-button[onclick*="${tabId}"]`);
             const targetContent = document.getElementById(tabId);
 
@@ -1071,6 +1101,7 @@
                 return;
             }
 
+            // Muat galeri atau album jika diperlukan, hanya jika user sudah login
             if (currentUserId) {
                 if (tabId === 'gallery-photo') {
                     loadGallery('photo');
@@ -1079,6 +1110,7 @@
                 } else if (tabId === 'albums') {
                     loadAlbums();
                 } else if (tabId === 'upload') {
+                    // Do nothing specific when navigating to upload, but ensure albums are loaded for the dropdown
                     if (state.albums.length === 0) {
                         loadAlbums();
                     }
@@ -1107,13 +1139,13 @@
                 showNotification('Autentikasi diperlukan untuk membuat album. Silakan login.', 'error');
                 return;
             }
-            newAlbumNameInput.value = '';
-            createAlbumModal.style.display = 'flex';
+            newAlbumNameInput.value = ''; // Bersihkan input sebelumnya
+            createAlbumModal.style.display = 'flex'; // Tampilkan modal
         }
 
         function closeCreateAlbumModal() {
             console.log('Closing create album modal...');
-            createAlbumModal.style.display = 'none';
+            createAlbumModal.style.display = 'none'; // Sembunyikan modal
         }
 
         async function createAlbum() {
@@ -1136,16 +1168,77 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     mediaCount: 0,
                     likes: 0,
-                    isPublic: false,
+                    isPublic: false, // Defaultnya privat
                     shareUrl: null
                 });
                 showNotification(`Album "${albumName}" berhasil dibuat!`);
                 closeCreateAlbumModal();
-                loadAlbums();
+                loadAlbums(); // Muat ulang album untuk memperbarui dropdown dan daftar
             } catch (error) {
                 console.error('Error creating album:', error);
                 showNotification(`Gagal membuat album: ${error.message}`, 'error');
             }
+        }
+
+        function generateUniqueId() {
+            return Math.random().toString(36).substring(2, 15);
+        }
+
+        function openShareAlbumModal(albumId, shareUrl) {
+            currentPublicAlbumId = albumId;
+            publicAlbumUrlInput.value = shareUrl || '';
+            shareAlbumModal.style.display = 'flex';
+        }
+
+        function closeShareAlbumModal() {
+            shareAlbumModal.style.display = 'none';
+            currentPublicAlbumId = null;
+        }
+
+        function copyPublicAlbumUrl() {
+            publicAlbumUrlInput.select();
+            document.execCommand('copy');
+            showNotification('URL publik berhasil disalin!');
+        }
+
+        async function togglePublicAlbum(albumId, isCurrentlyPublic, currentShareUrl) {
+            if (!currentUserId) {
+                showNotification('Autentikasi diperlukan untuk mengubah status album.', 'error');
+                return;
+            }
+
+            const albumRef = db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(albumId);
+            let newIsPublic = !isCurrentlyPublic;
+            let newShareUrl = null;
+
+            if (newIsPublic) {
+                // Generate a unique share URL if it doesn't exist or if it was previously private
+                newShareUrl = currentShareUrl || `${window.location.origin}/album/${albumId}`;
+                try {
+                    await albumRef.update({
+                        isPublic: newIsPublic,
+                        shareUrl: newShareUrl
+                    });
+                    showNotification(`Album berhasil diubah menjadi publik! URL: ${newShareUrl}`);
+                    openShareAlbumModal(albumId, newShareUrl);
+                } catch (error) {
+                    console.error('Error making album public:', error);
+                    showNotification(`Gagal membuat album publik: ${error.message}`, 'error');
+                }
+            } else {
+                // Set share URL to null when making private
+                try {
+                    await albumRef.update({
+                        isPublic: newIsPublic,
+                        shareUrl: null
+                    });
+                    showNotification('Album berhasil diubah menjadi privat.');
+                } catch (error) {
+                    console.error('Error making album private:', error);
+                    showNotification(`Gagal membuat album privat: ${error.message}`, 'error');
+                }
+            }
+            // loadAlbums akan dipanggil oleh onSnapshot listener, jadi UI akan otomatis diperbarui
         }
 
         async function loadAlbums() {
@@ -1161,6 +1254,7 @@
             const albumSelectUpload = document.getElementById('albumSelectUpload');
             const selectTargetAlbumDropdown = document.getElementById('selectTargetAlbum');
 
+            // Clear previous options and add default
             photoAlbumFilter.innerHTML = '<option value="">Semua Album</option>';
             videoAlbumFilter.innerHTML = '<option value="">Semua Album</option>';
             albumSelectUpload.innerHTML = '<option value="">Tidak ada album</option>';
@@ -1171,8 +1265,8 @@
                 db.collection(`artifacts/${appId}/users/${currentUserId}/albums`)
                     .orderBy('createdAt', 'desc')
                     .onSnapshot(snapshot => {
-                        state.albums = [];
-                        albumListEl.innerHTML = '';
+                        state.albums = []; // Bersihkan album sebelumnya
+                        albumListEl.innerHTML = ''; // Bersihkan UI daftar album
 
                         if (snapshot.empty) {
                             albumListEl.innerHTML = `
@@ -1189,13 +1283,12 @@
                             const album = { id: doc.id, ...doc.data() };
                             state.albums.push(album);
 
-                            // Tombol share dengan fungsi togglePublicAlbum yang diperbarui
+                            // Isi daftar album dengan tombol hapus dan bagikan
                             let shareButton = `
                                 <button class="share-album-btn" onclick="togglePublicAlbum('${album.id}', ${album.isPublic || false}, '${album.shareUrl || ''}')">
                                     <i class="${album.isPublic ? 'fas fa-lock-open' : 'fas fa-lock'}"></i> ${album.isPublic ? 'Publik' : 'Privat'}
                                 </button>
                             `;
-                            
                             let shareUrlDisplay = '';
                             if (album.isPublic && album.shareUrl) {
                                 shareUrlDisplay = `
@@ -1224,13 +1317,15 @@
                                 </div>
                             `;
 
+                            // Isi dropdown filter
                             const option = `<option value="${album.id}">${album.name}</option>`;
                             photoAlbumFilter.innerHTML += option;
                             videoAlbumFilter.innerHTML += option;
                             albumSelectUpload.innerHTML += option;
-                            selectTargetAlbumDropdown.innerHTML += option;
+                            selectTargetAlbumDropdown.innerHTML += option; // Tambahkan ke dropdown pindah album
                         });
 
+                        // Set album yang dipilih dalam filter jika sebelumnya dipilih
                         photoAlbumFilter.value = state.selectedPhotoAlbum;
                         videoAlbumFilter.value = state.selectedVideoAlbum;
                     }, error => {
@@ -1280,6 +1375,7 @@
             }
 
             try {
+                // 1. Set albumId media terkait menjadi null
                 const photosRef = db.collection(`artifacts/${appId}/users/${currentUserId}/fotos`);
                 const videosRef = db.collection(`artifacts/${appId}/users/${currentUserId}/videos`);
 
@@ -1298,26 +1394,37 @@
                 await batch.commit();
                 console.log('Associated media albumId set to null.');
 
-                // Hapus dari koleksi public_albums jika album publik
-                try {
-                    await db.collection('public_albums').doc(albumToDeleteId).delete();
-                } catch (e) {
-                    console.log('Album tidak ditemukan di public_albums, mungkin sudah dihapus');
-                }
-
-                // Hapus album
+                // 2. Hapus dokumen album
                 await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(albumToDeleteId).delete();
 
                 showNotification(`Album "${albumToDeleteName}" berhasil dihapus! Media terkait kini tidak memiliki album.`);
                 closeConfirmModal();
-                loadAlbums();
-                loadGallery('photo');
+                loadAlbums(); // Muat ulang daftar album
+                loadGallery('photo'); // Refresh galeri jika album yang dihapus mempengaruhi filter
                 loadGallery('video');
             } catch (error) {
                 console.error('Error deleting album:', error);
                 showNotification(`Gagal menghapus album: ${error.message}`, 'error');
                 closeConfirmModal();
             }
+        }
+
+        function filterGallery(type, albumId) {
+            console.log(`Filtering ${type} gallery by album: ${albumId}`);
+            if (!currentUserId) {
+                showNotification('Silakan login untuk memfilter galeri.', 'error');
+                return;
+            }
+            if (type === 'photo') {
+                state.selectedPhotoAlbum = albumId;
+                state.currentPhotoPage = 1; // Reset halaman saat memfilter
+                state.lastPhotoDoc = null; // Reset kursor paginasi
+            } else if (type === 'video') {
+                state.selectedVideoAlbum = albumId;
+                state.currentVideoPage = 1; // Reset halaman saat memfilter
+                state.lastVideoDoc = null; // Reset kursor paginasi
+            }
+            loadGallery(type);
         }
 
         // --- Fungsi Unggah ---
@@ -1337,6 +1444,7 @@
             const uploadStatus = document.getElementById('uploadStatus');
             const selectedAlbumId = document.getElementById('albumSelectUpload').value;
 
+            // Dapatkan akun Cloudinary yang sedang aktif
             const currentCloudinaryConfig = activeCloudinaryAccount;
             const cloudName = currentCloudinaryConfig.cloudName;
             const uploadPreset = currentCloudinaryConfig.uploadPreset;
@@ -1344,7 +1452,7 @@
             console.log(`Starting upload to Cloudinary account: ${currentCloudinaryConfig.name}`);
 
             for (const file of files) {
-                const itemId = `upload-${Date.now()}-${file.name.replace(/\s/g, '-')}`;
+                const itemId = `upload-${Date.now()}-${file.name.replace(/\s/g, '-')}`; // Sanitasi ID
                 const itemHtml = `
                     <div class="upload-item" id="${itemId}">
                         <div class="upload-header">
@@ -1366,6 +1474,7 @@
                 formData.append('upload_preset', uploadPreset);
 
                 try {
+                    // Menggunakan XMLHttpRequest untuk pelacakan kemajuan
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, true);
 
@@ -1382,6 +1491,7 @@
                             if (xhr.status >= 200 && xhr.status < 300) {
                                 resolve(JSON.parse(xhr.responseText));
                             } else {
+                                // Log full error response from Cloudinary
                                 console.error('Cloudinary upload error response:', xhr.responseText);
                                 reject(new Error(`Upload failed with status ${xhr.status}: ${xhr.responseText}`));
                             }
@@ -1393,6 +1503,7 @@
                     const data = await responsePromise;
                     console.log('Cloudinary upload successful:', data);
 
+                    // Tampilkan preview
                     const preview = data.resource_type === 'image' ?
                         `<img src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;">` :
                         `<video src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;" controls></video>`;
@@ -1406,6 +1517,7 @@
                         </div>
                     `);
 
+                    // Simpan ke Firestore
                     const collectionPath = `artifacts/${appId}/users/${currentUserId}/${data.resource_type === 'image' ? 'fotos' : 'videos'}`;
                     await db.collection(collectionPath).add({
                         url: data.secure_url,
@@ -1414,11 +1526,12 @@
                         format: data.format,
                         size: data.bytes,
                         date: firebase.firestore.FieldValue.serverTimestamp(),
-                        albumId: selectedAlbumId || null,
-                        likes: 0
+                        albumId: selectedAlbumId || null, // Simpan ID album atau null
+                        likes: 0 // Inisialisasi suka ke 0
                     });
                     console.log('Media data saved to Firestore.');
 
+                    // Perbarui jumlah media album jika album dipilih
                     if (selectedAlbumId) {
                         const albumRef = db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(selectedAlbumId);
                         await albumRef.update({
@@ -1429,6 +1542,11 @@
 
                     showNotification(`File ${file.name} berhasil diunggah ke ${data.resource_type === 'image' ? 'galeri foto' : 'galeri video'}!`);
 
+                    // Muat ulang galeri
+                    loadGallery(data.resource_type === 'image' ? 'photo' : 'video');
+                    loadAlbums(); // Perbarui jumlah album
+
+                    // Clear the file input dan switch back to the main gallery tab
                     document.getElementById('fileInput').value = '';
                     if (data.resource_type === 'image') {
                         switchTab('gallery-photo');
@@ -1449,10 +1567,14 @@
                 }
             }
 
+            // Clear the upload status section
             setTimeout(() => {
                 document.getElementById('uploadStatus').innerHTML = '';
             }, 5000);
         }
+
+        // Event listener untuk input file
+        document.getElementById('fileInput').addEventListener('change', uploadFiles);
 
         // Fungsi untuk memuat galeri
         async function loadGallery(type) {
@@ -1468,25 +1590,34 @@
             const countEl = document.getElementById(`${type}Count`);
             const selectedAlbumId = type === 'photo' ? state.selectedPhotoAlbum : state.selectedVideoAlbum;
 
+            // Tampilkan status memuat
             galleryEl.innerHTML = '<div class="loading"><div class="spinner"></div>Memuat...</div>';
 
             try {
                 let baseQuery = db.collection(`artifacts/${appId}/users/${currentUserId}/${collectionName}`);
 
+                // Terapkan filter album jika dipilih
                 if (selectedAlbumId) {
                     baseQuery = baseQuery.where('albumId', '==', selectedAlbumId);
                 }
+                // Catatan: Firestore tidak mudah mendukung kueri untuk nilai null dalam klausa 'where'
+                // yang dikombinasikan dengan filter lain tanpa indeks tertentu.
+                // Untuk "Semua Album" (selectedAlbumId kosong), ini mengambil semua dokumen dalam koleksi.
 
+                // Hitung total item untuk paginasi
                 const countSnapshot = await baseQuery.get();
                 const totalItems = countSnapshot.size;
                 state[`${type}Total`] = totalItems;
 
+                // Perbarui tampilan jumlah
                 countEl.textContent = `${totalItems} ${type === 'photo' ? 'foto' : 'video'}`;
 
+                // Kueri dengan paginasi
                 let query = baseQuery
                     .orderBy('date', 'desc')
                     .limit(state.itemsPerPage);
 
+                // Terapkan startAfter untuk halaman berikutnya
                 if (state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`] > 1 && state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`]) {
                     query = query.startAfter(state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`]);
                 }
@@ -1494,12 +1625,14 @@
                 const snapshot = await query.get();
                 console.log(`Fetched ${snapshot.size} items for ${type} gallery.`);
 
+                // Simpan dokumen terakhir untuk paginasi halaman berikutnya
                 if (!snapshot.empty) {
                     state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = snapshot.docs[snapshot.docs.length - 1];
                 } else {
-                    state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = null;
+                    state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = null; // Tidak ada dokumen lagi
                 }
 
+                // Render galeri
                 if (snapshot.empty) {
                     galleryEl.innerHTML = `
                         <div class="empty-state">
@@ -1512,7 +1645,7 @@
                     return;
                 }
 
-                galleryEl.innerHTML = '';
+                galleryEl.innerHTML = ''; // Bersihkan konten sebelumnya
 
                 snapshot.forEach(doc => {
                     const media = { id: doc.id, ...doc.data() };
@@ -1593,6 +1726,7 @@
                     }
                 });
 
+                // Render paginasi
                 renderPagination(type, totalItems);
 
             } catch (error) {
@@ -1607,87 +1741,9 @@
             }
         }
 
-        // --- Fungsi Album Publik ---
-        async function togglePublicAlbum(albumId, isCurrentlyPublic, currentShareUrl) {
-            if (!currentUserId) {
-                showNotification('Autentikasi diperlukan untuk mengubah status album.', 'error');
-                return;
-            }
-
-            const albumRef = db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(albumId);
-            let newIsPublic = !isCurrentlyPublic;
-            let newShareUrl = null;
-
-            if (newIsPublic) {
-                // Generate URL publik untuk Firebase Hosting
-                newShareUrl = `${window.location.origin}/public_album.html?albumId=${albumId}`;
-                
-                try {
-                    // Ambil data album
-                    const albumSnapshot = await albumRef.get();
-                    const albumData = albumSnapshot.data();
-                    
-                    // Simpan ke koleksi public_albums
-                    const publicAlbumRef = db.collection('public_albums').doc(albumId);
-                    await publicAlbumRef.set({
-                        name: albumData.name,
-                        ownerId: currentUserId,
-                        appId: appId,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        shareUrl: newShareUrl
-                    });
-                    
-                    // Update album asli
-                    await albumRef.update({
-                        isPublic: newIsPublic,
-                        shareUrl: newShareUrl
-                    });
-                    
-                    showNotification(`Album berhasil diubah menjadi publik!`);
-                    openShareAlbumModal(albumId, newShareUrl);
-                } catch (error) {
-                    console.error('Error making album public:', error);
-                    showNotification(`Gagal membuat album publik: ${error.message}`, 'error');
-                }
-            } else {
-                try {
-                    // Hapus dari koleksi public_albums
-                    await db.collection('public_albums').doc(albumId).delete();
-                    
-                    // Update album asli
-                    await albumRef.update({
-                        isPublic: newIsPublic,
-                        shareUrl: null
-                    });
-                    
-                    showNotification('Album berhasil diubah menjadi privat.');
-                } catch (error) {
-                    console.error('Error making album private:', error);
-                    showNotification(`Gagal membuat album privat: ${error.message}`, 'error');
-                }
-            }
-            loadAlbums();
-        }
-
-        function openShareAlbumModal(albumId, shareUrl) {
-            currentPublicAlbumId = albumId;
-            publicAlbumUrlInput.value = shareUrl || '';
-            shareAlbumModal.style.display = 'flex';
-        }
-
-        function closeShareAlbumModal() {
-            shareAlbumModal.style.display = 'none';
-            currentPublicAlbumId = null;
-        }
-
-        function copyPublicAlbumUrl() {
-            publicAlbumUrlInput.select();
-            document.execCommand('copy');
-            showNotification('URL publik berhasil disalin!');
-        }
-
         // Fungsi untuk menyalin ke clipboard
         function copyToClipboard(text) {
+            // Menggunakan document.execCommand('copy') untuk kompatibilitas iframe yang lebih baik
             const textarea = document.createElement('textarea');
             textarea.value = text;
             document.body.appendChild(textarea);
@@ -1709,6 +1765,7 @@
                 return;
             }
             selectedMediaIdCopy = mediaId;
+            // Pastikan dropdown sudah terisi dengan album
             const selectTargetAlbumCopyDropdown = document.getElementById('selectTargetAlbumCopy');
             populateAlbumDropdown(selectTargetAlbumCopyDropdown);
             copyToAlbumModal.style.display = 'flex';
@@ -1739,6 +1796,7 @@
 
             if (originalDoc.exists) {
                 const originalData = originalDoc.data();
+                // Buat data baru dengan ID album yang berbeda
                 const newData = { ...originalData, albumId: targetAlbumId, date: firebase.firestore.FieldValue.serverTimestamp() };
 
                 try {
@@ -1749,8 +1807,8 @@
                     });
                     showNotification('Gambar berhasil disalin ke album!');
                     closeCopyToAlbumModal();
-                    loadGallery('photo');
-                    loadAlbums();
+                    loadGallery('photo'); // Refresh galeri foto
+                    loadAlbums(); // Refresh daftar album
                 } catch (error) {
                     console.error('Error copying image to album:', error);
                     showNotification(`Gagal menyalin gambar: ${error.message}`, 'error');
@@ -1763,6 +1821,7 @@
 
         // Fungsi untuk mengisi dropdown album
         function populateAlbumDropdown(dropdownElement) {
+            // Bersihkan opsi sebelumnya kecuali opsi default
             while (dropdownElement.options.length > 1) {
                 dropdownElement.remove(1);
             }
@@ -1817,6 +1876,7 @@
 
                 await mediaRef.update({ albumId: targetAlbumId });
 
+                // Perbarui hitungan di album lama (jika ada) dan album baru
                 if (oldAlbumId && oldAlbumId !== targetAlbumId) {
                     await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(oldAlbumId).update({
                         mediaCount: firebase.firestore.FieldValue.increment(-1)
@@ -1828,8 +1888,8 @@
 
                 showNotification('Media berhasil dipindahkan ke album!');
                 closeMoveToAlbumModal();
-                loadGallery(selectedMediaType === 'image' ? 'photo' : 'video');
-                loadAlbums();
+                loadGallery(selectedMediaType === 'image' ? 'photo' : 'video'); // Refresh galeri
+                loadAlbums(); // Refresh daftar album
             } catch (error) {
                 console.error('Error moving media to album:', error);
                 showNotification(`Gagal memindahkan media: ${error.message}`, 'error');
@@ -1849,6 +1909,7 @@
 
             let paginationHtml = '';
 
+            // Tombol Sebelumnya
             paginationHtml += `
                 <button class="page-btn" onclick="changePage('${type}', ${currentPage - 1})"
                     ${currentPage === 1 ? 'disabled' : ''}>
@@ -1856,6 +1917,7 @@
                 </button>
             `;
 
+            // Tampilkan beberapa halaman di sekitar halaman saat ini
             const startPage = Math.max(1, currentPage - 2);
             const endPage = Math.min(totalPages, currentPage + 2);
 
@@ -1868,6 +1930,7 @@
                 `;
             }
 
+            // Tombol Berikutnya
             paginationHtml += `
                 <button class="page-btn" onclick="changePage('${type}', ${currentPage + 1})"
                     ${currentPage === totalPages ? 'disabled' : ''}>
@@ -1886,6 +1949,7 @@
             }
             state[`current${type.charAt(0).toUpperCase() + type.slice(1)}Page`] = page;
 
+            // Reset lastDoc jika kembali ke halaman pertama atau navigasi signifikan
             if (page === 1) {
                 state[`last${type.charAt(0).toUpperCase() + type.slice(1)}Doc`] = null;
             }
@@ -1905,9 +1969,10 @@
 
             try {
                 await mediaRef.update({
-                    likes: firebase.firestore.FieldValue.increment(1)
+                    likes: firebase.firestore.FieldValue.increment(1) // Tambah 1
                 });
                 showNotification('Media disukai!');
+                // Listener onSnapshot di loadGallery akan secara otomatis memperbarui UI
             } catch (error) {
                 console.error('Error liking media:', error);
                 showNotification(`Gagal menyukai media: ${error.message}`, 'error');
@@ -1919,7 +1984,7 @@
             try {
                 await auth.signOut();
                 showNotification('Berhasil keluar. Mengarahkan ke halaman login...', 'success');
-                window.location.href = 'login.html';
+                window.location.href = 'login.html'; // Arahkan ke halaman login
             } catch (error) {
                 console.error('Error logging out:', error);
                 showNotification(`Gagal keluar: ${error.message}`, 'error');
@@ -1963,6 +2028,8 @@
                 const dt = e.dataTransfer;
                 const files = dt.files;
                 document.getElementById('fileInput').files = files;
+                // Unggahan akan dipicu secara otomatis oleh event 'change' pada fileInput
+                // setelah file dipilih (baik dari klik atau drag/drop).
                 uploadFiles();
             }
 
@@ -1970,11 +2037,12 @@
             const cloudinaryAccountSelect = document.getElementById('cloudinaryAccountSelect');
             cloudinaryAccounts.forEach((account, index) => {
                 const option = document.createElement('option');
-                option.value = index;
+                option.value = index; // Gunakan indeks sebagai nilai
                 option.textContent = account.name;
                 cloudinaryAccountSelect.appendChild(option);
             });
 
+            // Set akun Cloudinary aktif berdasarkan pilihan
             cloudinaryAccountSelect.addEventListener('change', (event) => {
                 activeCloudinaryAccount = cloudinaryAccounts[parseInt(event.target.value)];
                 showNotification(`Akun Cloudinary diubah ke: ${activeCloudinaryAccount.name}`);
@@ -1989,12 +2057,14 @@
                 currentUserId = user.uid;
                 userIdDisplay.textContent = `User ID: ${currentUserId}`;
                 console.log('Main App: User authenticated:', currentUserId);
+                // Muat data awal setelah pengguna terautentikasi
                 loadAlbums();
                 loadGallery('photo');
             } else {
                 currentUserId = null;
                 userIdDisplay.textContent = 'Tidak ada pengguna yang masuk.';
                 console.log('Main App: No user authenticated. Redirecting to login.');
+                // Hanya arahkan ke login jika belum di halaman login
                 if (window.location.pathname !== '/login.html' && window.location.pathname !== '/login') {
                     window.location.href = 'login.html';
                 }
@@ -2002,6 +2072,7 @@
         }, error => {
             console.error('Main App: Error during onAuthStateChanged:', error);
             showNotification(`Kesalahan autentikasi: ${error.message}`, 'error');
+            // Jika ada kesalahan autentikasi saat memuat, arahkan ke login juga
             if (window.location.pathname !== '/login.html' && window.location.pathname !== '/login') {
                 window.location.href = 'login.html';
             }
