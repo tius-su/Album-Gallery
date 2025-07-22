@@ -6,246 +6,81 @@
     <title>Album Publik</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7ff;
-            color: #212529;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
+            margin: 20px;
+            background-color: #f4f4f4;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .album-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-        }
-        
         .album-title {
-            font-size: 2.5rem;
-            color: #4361ee;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #4361ee, #3f37c9);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
         }
-        
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #4361ee;
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .back-link:hover {
-            background: #3f37c9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
-        }
-        
         .gallery-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
+            gap: 15px;
         }
-        
         .media-card {
-            background: white;
-            border-radius: 12px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
         }
-        
-        .media-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
         .media-content {
-            height: 250px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .media-content img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            height: auto;
         }
-        
-        .media-content video {
+        .media-content img, .media-content video {
+            display: block;
             width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
+            height: auto;
         }
-        
-        .media-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-            padding: 15px;
-            color: white;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .media-card:hover .media-overlay {
-            opacity: 1;
-        }
-        
-        .media-type {
-            background: #4cc9f0;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-        
-        .media-date {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-        
-        .media-info {
-            padding: 15px;
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-        
         .loading {
             text-align: center;
-            padding: 50px 20px;
-            color: #6c757d;
+            margin-top: 50px;
+            color: #777;
         }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(67, 97, 238, 0.2);
-            border-top: 4px solid #4361ee;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
         .empty-state {
             text-align: center;
-            padding: 50px 20px;
-            color: #6c757d;
+            margin-top: 50px;
+            color: #777;
         }
-        
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            color: #dee2e6;
-        }
-        
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #212529;
-        }
-        
         .error-state {
             text-align: center;
-            padding: 50px 20px;
+            margin-top: 50px;
             color: #dc3545;
-        }
-        
-        .error-state i {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .gallery-container {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 15px;
-            }
-            
-            .album-title {
-                font-size: 2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .gallery-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .album-title {
-                font-size: 1.8rem;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="album-header">
-            <h1 class="album-title" id="albumName">Memuat Nama Album...</h1>
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
-        </div>
-        
-        <div class="gallery-container" id="publicAlbumGallery">
-            <div class="loading">
-                <div class="spinner"></div>
-                Memuat media...
-            </div>
-        </div>
+    <h2 class="album-title" id="albumName">Memuat Nama Album...</h2>
+    <div class="gallery-container" id="publicAlbumGallery">
+        <div class="loading"><i class="fas fa-spinner fa-spin fa-3x"></i> Memuat Media...</div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // Konfigurasi Firebase
+        // Firebase Configuration (Pastikan sesuai dengan konfigurasi utama Anda)
         const firebaseConfig = {
-            apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
-            authDomain: "homepage-71aa8.firebaseapp.com",
-            projectId: "homepage-71aa8",
-            storageBucket: "homepage-71aa8.firebasestorage.app",
-            messagingSenderId: "238347756112",
-            appId: "1:238347756112:web:6b33d6772f3568385f2755"
-        };
+  apiKey: "AIzaSyAnnfK9njvEp2jPFxc-wnPldwxaNqp2GgE",
+  authDomain: "homepage-71aa8.firebaseapp.com",
+  projectId: "homepage-71aa8",
+  storageBucket: "homepage-71aa8.firebasestorage.app",
+  messagingSenderId: "238347756112",
+  appId: "1:238347756112:web:6b33d6772f3568385f2755"
+};
 
         // Inisialisasi Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // Dapatkan albumId dari URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const albumId = urlParams.get('albumId');
-            
+            const albumId = getAlbumIdFromUrl();
             if (!albumId) {
-                showError('ID Album tidak ditemukan di URL.');
+                document.getElementById('publicAlbumGallery').innerHTML = '<div class="error-state"><i class="fas fa-exclamation-triangle fa-3x"></i> ID Album tidak valid.</div>';
                 return;
             }
 
@@ -253,118 +88,71 @@
             const galleryContainer = document.getElementById('publicAlbumGallery');
 
             try {
-                // 1. Ambil data album dari koleksi public_albums
-                const publicAlbumRef = db.collection('public_albums').doc(albumId);
-                const albumSnapshot = await publicAlbumRef.get();
-                
-                if (!albumSnapshot.exists) {
-                    showError('Album tidak ditemukan atau tidak publik.');
+                // Ambil data album terlebih dahulu untuk mendapatkan User ID pemilik
+                const albumSnapshot = await db.collection(`artifacts/default-app-id/users/${getUserIdPlaceholder()}/albums`).doc(albumId).get();
+                if (!albumSnapshot.exists || !albumSnapshot.data().isPublic) {
+                    galleryContainer.innerHTML = '<div class="empty-state"><i class="fas fa-eye-slash fa-3x"></i> Album tidak ditemukan atau tidak publik.</div>';
                     return;
                 }
-                
-                const albumData = albumSnapshot.data();
-                albumNameElement.textContent = albumData.name;
-                
-                // 2. Dapatkan ownerId dan appId dari data album
-                const ownerId = albumData.ownerId;
-                const appId = albumData.appId;
+                albumNameElement.textContent = albumSnapshot.data().name;
+                galleryContainer.innerHTML = ''; // Bersihkan pesan loading
 
-                // 3. Tampilkan loading state yang lebih baik
-                galleryContainer.innerHTML = `
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Memuat media album...
-                    </div>
-                `;
+                // *** PENTING: Sesuaikan cara mendapatkan User ID pemilik album di sini ***
+                // Asumsi: User ID disimpan di field 'ownerId' di dokumen album
+                const ownerId = albumSnapshot.data()?.ownerId;
 
-                // 4. Ambil media dari koleksi user
-                const [photosSnapshot, videosSnapshot] = await Promise.all([
-                    db.collection(`artifacts/${appId}/users/${ownerId}/fotos`)
-                        .where('albumId', '==', albumId)
-                        .get(),
-                    db.collection(`artifacts/${appId}/users/${ownerId}/videos`)
-                        .where('albumId', '==', albumId)
-                        .get()
-                ]);
+                if (!ownerId) {
+                    console.error("Error: Owner ID tidak ditemukan di data album.");
+                    galleryContainer.innerHTML = '<div class="error-state"><i class="fas fa-exclamation-circle fa-3x"></i> Gagal memuat album. ID Pemilik tidak ditemukan.</div>';
+                    return;
+                }
 
-                // 5. Tampilkan media
-                galleryContainer.innerHTML = '';
-
-                // Tampilkan foto
+                const photosSnapshot = await db.collection(`artifacts/default-app-id/users/${ownerId}/fotos`).where('albumId', '==', albumId).get();
                 photosSnapshot.forEach(doc => {
                     const media = doc.data();
-                    renderMedia(media, 'image', galleryContainer);
-                });
-
-                // Tampilkan video
-                videosSnapshot.forEach(doc => {
-                    const media = doc.data();
-                    renderMedia(media, 'video', galleryContainer);
-                });
-
-                // 6. Tampilkan pesan jika tidak ada media
-                if (photosSnapshot.empty && videosSnapshot.empty) {
-                    galleryContainer.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-image fa-3x"></i>
-                            <h3>Tidak ada media di album ini</h3>
-                            <p>Album ini belum berisi foto atau video</p>
+                    galleryContainer.innerHTML += `
+                        <div class="media-card">
+                            <div class="media-content">
+                                <img src="${media.url}" alt="${media.name}">
+                            </div>
                         </div>
                     `;
+                });
+
+                const videosSnapshot = await db.collection(`artifacts/default-app-id/users/${ownerId}/videos`).where('albumId', '==', albumId).get();
+                videosSnapshot.forEach(doc => {
+                    const media = doc.data();
+                    galleryContainer.innerHTML += `
+                        <div class="media-card">
+                            <div class="media-content">
+                                <video src="${media.url}" controls></video>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (photosSnapshot.empty && videosSnapshot.empty) {
+                    galleryContainer.innerHTML = '<div class="empty-state"><i class="fas fa-image fa-3x"></i> Tidak ada media di album ini.</div>';
                 }
 
             } catch (error) {
                 console.error('Gagal memuat album publik:', error);
-                showError(`Terjadi kesalahan: ${error.message}`);
+                galleryContainer.innerHTML = `<div class="error-state"><i class="fas fa-exclamation-circle fa-3x"></i> Gagal memuat album: ${error.message}</div>`;
             }
         });
 
-        // Fungsi untuk merender media
-        function renderMedia(media, type, container) {
-            let dateText = 'Tanggal tidak tersedia';
-            
-            if (media.date && media.date.toDate) {
-                const date = media.date.toDate();
-                dateText = date.toLocaleDateString('id-ID', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                });
-            }
-            
-            const mediaHtml = `
-                <div class="media-card">
-                    <div class="media-content">
-                        ${type === 'image' ? 
-                            `<img src="${media.url}" alt="${media.name || 'Foto'}">` : 
-                            `<video src="${media.url}" controls></video>`}
-                        <div class="media-overlay">
-                            <span class="media-type">${type === 'image' ? 'Foto' : 'Video'}</span>
-                            <div class="media-date">${dateText}</div>
-                        </div>
-                    </div>
-                    <div class="media-info">
-                        ${media.name || (type === 'image' ? 'Foto' : 'Video')}
-                    </div>
-                </div>
-            `;
-            
-            container.innerHTML += mediaHtml;
+        function getAlbumIdFromUrl() {
+            const pathSegments = window.location.pathname.split('/');
+            // Asumsi struktur URL: /album/{albumId}
+            return pathSegments[pathSegments.length - 1];
         }
 
-        // Fungsi untuk menampilkan error
-        function showError(message) {
-            const galleryContainer = document.getElementById('publicAlbumGallery');
-            galleryContainer.innerHTML = `
-                <div class="error-state">
-                    <i class="fas fa-exclamation-triangle fa-3x"></i>
-                    <h3>Terjadi Kesalahan</h3>
-                    <p>${message}</p>
-                    <p style="margin-top: 20px;">
-                        <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
-                    </p>
-                </div>
-            `;
+        // *** PENTING: Ganti fungsi placeholder ini dengan cara yang benar untuk mendapatkan User ID ***
+        // Cara yang disarankan: Ambil User ID dari data album itu sendiri
+        function getUserIdPlaceholder() {
+            // Fungsi ini sekarang hanya sebagai placeholder.
+            // Sebaiknya Anda mengambil User ID dari data album setelah mengambil albumSnapshot.
+            return null; // Akan diganti dengan ownerId dari data album
         }
     </script>
 </body>
