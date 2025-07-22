@@ -12,6 +12,7 @@
 
     <meta name="theme-color" content="#4361ee">
     <style>
+        /* ... (CSS Anda) ... */
         :root {
             --primary: #4361ee;
             --secondary: #3f37c9;
@@ -1204,44 +1205,62 @@
                 return;
             }
 
+            // REFERENSI KE DOKUMEN ALBUM PRIBADI PENGGUNA
             const albumRef = db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(albumId);
             let newIsPublic = !isCurrentlyPublic;
             let newShareUrl = null;
 
-            if (newIsPublic) {
-                // *** BAGIAN YANG DIREVISI UNTUK KOMPATIBILITAS GITHUB PAGES DAN FIREBASE HOSTING ***
-                // Gunakan ini untuk GitHub Pages (dan akan tetap berfungsi di Firebase Hosting tanpa rewrites)
-                newShareUrl = currentShareUrl || `${window.location.origin}/public_album.html?albumId=${albumId}`;
-                
-                // ATAU, jika Anda hanya menggunakan Firebase Hosting dan sudah mengonfigurasi rewrites di firebase.json:
-                // newShareUrl = currentShareUrl || `${window.location.origin}/album/${albumId}`;
-                // Anda bisa memilih salah satu, yang di atas lebih universal untuk saat ini.
+            try {
+                if (newIsPublic) {
+                    // URL publik untuk halaman public_album.html
+                    newShareUrl = currentShareUrl || `${window.location.origin}/public_album.html?albumId=${albumId}`;
 
-                try {
+                    // *** BAGIAN PENTING: MEMBUAT/MEMPERBARUI ENTRI DI KOLEKSI public_albums (di root) ***
+                    // Pastikan koleksi public_albums ini ada di ROOT Firestore Anda
+                    const publicAlbumDocRef = db.collection('public_albums').doc(albumId);
+                    
+                    // Ambil nama album dari dokumen pribadi sebelum membuat entri publik
+                    const albumDataFromPersonal = (await albumRef.get()).data();
+                    
+                    if (albumDataFromPersonal) {
+                        await publicAlbumDocRef.set({
+                            ownerId: currentUserId,
+                            appId: appId, // Penting untuk filter query di public_album.html
+                            name: albumDataFromPersonal.name, // Gunakan nama dari dokumen pribadi
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    } else {
+                        console.error("Error: Album pribadi tidak ditemukan saat mencoba mempublikasikan.");
+                        showNotification("Gagal mempublikasikan: Album pribadi tidak ditemukan.", "error");
+                        return; // Hentikan proses jika album pribadi tidak ditemukan
+                    }
+                    // *** AKHIR BAGIAN PENTING ***
+
+                    // Perbarui status publik di dokumen album pribadi pengguna
                     await albumRef.update({
                         isPublic: newIsPublic,
                         shareUrl: newShareUrl
                     });
                     showNotification(`Album berhasil diubah menjadi publik! URL: ${newShareUrl}`);
                     openShareAlbumModal(albumId, newShareUrl);
-                } catch (error) {
-                    console.error('Error making album public:', error);
-                    showNotification(`Gagal membuat album publik: ${error.message}`, 'error');
-                }
-            } else {
-                // Set share URL to null when making private
-                try {
+                } else {
+                    // Jika diubah menjadi privat, hapus entri dari public_albums (di root)
+                    // *** BAGIAN PENTING: MENGHAPUS ENTRI DARI KOLEKSI public_albums (di root) ***
+                    await db.collection('public_albums').doc(albumId).delete();
+                    // *** AKHIR BAGIAN PENTING ***
+
+                    // Perbarui status publik di dokumen album pribadi pengguna
                     await albumRef.update({
                         isPublic: newIsPublic,
                         shareUrl: null
                     });
                     showNotification('Album berhasil diubah menjadi privat.');
-                } catch (error) {
-                    console.error('Error making album private:', error);
-                    showNotification(`Gagal membuat album privat: ${error.message}`, 'error');
                 }
+                // loadAlbums akan dipanggil oleh onSnapshot listener, jadi UI akan otomatis diperbarui
+            } catch (error) {
+                console.error('Error toggling public album status:', error);
+                showNotification(`Gagal mengubah status album: ${error.message}`, 'error');
             }
-            // loadAlbums akan dipanggil oleh onSnapshot listener, jadi UI akan otomatis diperbarui
         }
 
         async function loadAlbums() {
@@ -1265,6 +1284,7 @@
             albumListEl.innerHTML = '<div class="loading"><div class="spinner"></div>Memuat album...</div>';
 
             try {
+                // MUAT ALBUM PRIBADI PENGGUNA
                 db.collection(`artifacts/${appId}/users/${currentUserId}/albums`)
                     .orderBy('createdAt', 'desc')
                     .onSnapshot(snapshot => {
@@ -1397,8 +1417,12 @@
                 await batch.commit();
                 console.log('Associated media albumId set to null.');
 
-                // 2. Hapus dokumen album
+                // 2. Hapus dokumen album PRIBADI PENGGUNA
                 await db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(albumToDeleteId).delete();
+
+                // 3. Hapus juga dari koleksi public_albums jika ada
+                await db.collection('public_albums').doc(albumToDeleteId).delete(); // Tambahkan baris ini
+
 
                 showNotification(`Album "${albumToDeleteName}" berhasil dihapus! Media terkait kini tidak memiliki album.`);
                 closeConfirmModal();
@@ -1520,7 +1544,7 @@
                         </div>
                     `);
 
-                    // Simpan ke Firestore
+                    // Simpan ke Firestore (ke koleksi pribadi pengguna)
                     const collectionPath = `artifacts/${appId}/users/${currentUserId}/${data.resource_type === 'image' ? 'fotos' : 'videos'}`;
                     await db.collection(collectionPath).add({
                         url: data.secure_url,
@@ -1534,7 +1558,7 @@
                     });
                     console.log('Media data saved to Firestore.');
 
-                    // Perbarui jumlah media album jika album dipilih
+                    // Perbarui jumlah media album jika album dipilih (di koleksi pribadi pengguna)
                     if (selectedAlbumId) {
                         const albumRef = db.collection(`artifacts/${appId}/users/${currentUserId}/albums`).doc(selectedAlbumId);
                         await albumRef.update({

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gaeri-Media-v2';
+const CACHE_NAME = 'galeri-media-v6'; // Pastikan Anda mengubah ini ke v6 atau v7 untuk pembaruan paksa
 const urlsToCache = [
   '/',
   '/index.html',
@@ -6,14 +6,16 @@ const urlsToCache = [
   '/favicon.ico',
   '/apple-touch-icon.png',
   // Tambahkan semua ikon yang Anda definisikan di manifest.json
-  '/icons/icon-72x72.png',
-  '/icons/icon-96x96.png',
-  '/icons/icon-128x128.png',
-  '/icons/icon-144x144.png',
-  '/icons/icon-152x152.png',
-  '/icons/icon-192x192.png',
-  '/icons/icon-384x384.png',
-  '/icons/icon-512x512.png'
+  '/icon-72x72.png', // Pastikan jalur ini benar jika ikon Anda di root
+  '/icon-96x96.png',
+  '/icon-128x128.png',
+  '/icon-144x144.png',
+  '/icon-152x152.png',
+  '/icon-192x192.png',
+  '/icon-384x384.png',
+  '/icon-512x512.png',
+  '/public_album.html', // Pastikan juga menyertakan public_album.html jika ingin di-cache
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' // Jika ingin di-cache
 ];
 
 // Event: install - Cache aset statis
@@ -22,7 +24,14 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache');
+        // Pastikan semua URL di urlsToCache benar-benar dapat diakses
+        // Jika ada yang 404 saat addAll, seluruh proses caching akan gagal
         return cache.addAll(urlsToCache);
+      })
+      .catch(error => {
+        console.error('Failed to cache during install:', error);
+        // Tangani error, misal: log URL mana yang gagal
+        // console.error('URLs that might have failed:', urlsToCache);
       })
   );
 });
@@ -54,10 +63,13 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
+  // Klaim klien agar Service Worker baru segera mengambil kendali
+  event.waitUntil(self.clients.claim());
 });
