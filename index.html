@@ -6,13 +6,12 @@
     <title>Gallery Media - Foto & Video</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-  <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
 
     <meta name="theme-color" content="#4361ee">
     <style>
-        /* ... (CSS Anda) ... */
         :root {
             --primary: #4361ee;
             --secondary: #3f37c9;
@@ -287,14 +286,17 @@
             height: 200px;
             overflow: hidden;
             position: relative;
+            cursor: pointer; /* Menandakan bisa diklik */
         }
 
+        /* REVISI CSS: Untuk melihat seluruh gambar/video */
         .media-content img,
         .media-content video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* <-- UBAH KE INI: gambar/video akan terlihat semua */
             display: block;
+            background-color: #000; /* Opsional: mengisi ruang kosong dengan warna hitam */
         }
 
         .media-overlay {
@@ -781,6 +783,39 @@
         .copy-url-btn:hover {
             background: var(--secondary);
         }
+
+        /* CSS untuk Modal Layar Penuh */
+        .modal-content-fullscreen {
+            background-color: rgba(0, 0, 0, 0.9); /* Latar belakang gelap */
+            margin: auto;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            max-width: 90%;
+            max-height: 90%;
+            display: flex; /* Untuk memusatkan gambar/video */
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .fullscreen-close-button {
+            color: #fff;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1002; /* Di atas konten */
+        }
+
+        .fullscreen-close-button:hover,
+        .fullscreen-close-button:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Pastikan .modal memiliki display: flex saat dibuka untuk memusatkan .modal-content-fullscreen */
     </style>
 </head>
 <body>
@@ -961,6 +996,14 @@
             <button onclick="copyPublicAlbumUrl()">
                 <i class="fas fa-copy"></i> Salin URL
             </button>
+        </div>
+    </div>
+
+    <div id="fullscreenModal" class="modal">
+        <div class="modal-content-fullscreen">
+            <span class="fullscreen-close-button" onclick="closeFullscreenModal()">&times;</span>
+            <img id="fullscreenImage" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            <video id="fullscreenVideo" src="" controls style="max-width: 100%; max-height: 100%; object-fit: contain;"></video>
         </div>
     </div>
 
@@ -1532,8 +1575,8 @@
 
                     // Tampilkan preview
                     const preview = data.resource_type === 'image' ?
-                        `<img src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;">` :
-                        `<video src="${data.secure_url}" style="max-width: 100px; margin-top: 10px; border-radius: 5px;" controls></video>`;
+                        `<img src="${data.secure_url}" alt="${data.name}">` :
+                        `<video src="${data.secure_url}" controls></video>`;
 
                     document.getElementById(itemId).insertAdjacentHTML('beforeend', `
                         <div style="margin-top: 10px;">
@@ -1686,8 +1729,7 @@
                     if (media.type === 'image') {
                         galleryEl.innerHTML += `
                             <div class="media-card">
-                                <div class="media-content">
-                                    <img src="${media.url}" alt="${media.name}">
+                                <div class="media-content" onclick="openFullscreenModal('${media.url}', 'image')"> <img src="${media.url}" alt="${media.name}">
                                     <div class="media-overlay">
                                         <span class="media-type">Foto</span>
                                         <div class="media-date">${dateText}</div>
@@ -1719,8 +1761,7 @@
                     } else if (media.type === 'video') {
                         galleryEl.innerHTML += `
                             <div class="media-card">
-                                <div class="media-content">
-                                    <video src="${media.url}" controls></video>
+                                <div class="media-content" onclick="openFullscreenModal('${media.url}', 'video')"> <video src="${media.url}" controls></video>
                                     <div class="media-overlay">
                                         <span class="media-type">Video</span>
                                         <div class="media-date">${dateText}</div>
@@ -1760,7 +1801,7 @@
                     <p>${error.message}</p>
                 </div>`;
 
-                showNotification(`Gagal memuat galeri: ${error.message}`, 'error');
+                showNotification(`Gagal memuat galeri: ${e.message}`, 'error');
             }
         }
 
@@ -1915,7 +1956,7 @@
                 loadAlbums(); // Refresh daftar album
             } catch (error) {
                 console.error('Error moving media to album:', error);
-                showNotification(`Gagal memindahkan media: ${error.message}`, 'error');
+                showNotification(`Gagal memindahkan media: ${e.message}`, 'error');
             }
         }
 
@@ -1998,7 +2039,7 @@
                 // Listener onSnapshot di loadGallery akan secara otomatis memperbarui UI
             } catch (error) {
                 console.error('Error liking media:', error);
-                showNotification(`Gagal menyukai media: ${error.message}`, 'error');
+                showNotification(`Gagal menyukai media: ${e.message}`, 'error');
             }
         }
 
@@ -2010,9 +2051,37 @@
                 window.location.href = 'login.html'; // Arahkan ke halaman login
             } catch (error) {
                 console.error('Error logging out:', error);
-                showNotification(`Gagal keluar: ${error.message}`, 'error');
+                showNotification(`Gagal keluar: ${e.message}`, 'error');
             }
         }
+
+        // --- Fungsionalitas Modal Layar Penuh ---
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const fullscreenImage = document.getElementById('fullscreenImage');
+        const fullscreenVideo = document.getElementById('fullscreenVideo');
+
+        function openFullscreenModal(url, type) {
+            fullscreenImage.style.display = 'none';
+            fullscreenVideo.style.display = 'none';
+
+            if (type === 'image') {
+                fullscreenImage.src = url;
+                fullscreenImage.style.display = 'block';
+            } else if (type === 'video') {
+                fullscreenVideo.src = url;
+                fullscreenVideo.style.display = 'block';
+                fullscreenVideo.play(); // Putar otomatis video
+            }
+            fullscreenModal.style.display = 'flex'; // Pastikan modal ditampilkan sebagai flex
+        }
+
+        function closeFullscreenModal() {
+            fullscreenVideo.pause(); // Hentikan video saat menutup
+            fullscreenModal.style.display = 'none';
+            fullscreenImage.src = '';
+            fullscreenVideo.src = '';
+        }
+        // --- Akhir Fungsionalitas Modal Layar Penuh ---
 
         // Event listener untuk drag and drop
         document.addEventListener('DOMContentLoaded', () => {
@@ -2094,7 +2163,7 @@
             }
         }, error => {
             console.error('Main App: Error during onAuthStateChanged:', error);
-            showNotification(`Kesalahan autentikasi: ${error.message}`, 'error');
+            showNotification(`Kesalahan autentikasi: ${e.message}`, 'error');
             // Jika ada kesalahan autentikasi saat memuat, arahkan ke login juga
             if (window.location.pathname !== '/login.html' && window.location.pathname !== '/login') {
                 window.location.href = 'login.html';
@@ -2117,6 +2186,10 @@
             }
             if (event.target == shareAlbumModal) {
                 closeShareAlbumModal();
+            }
+            // Event listener untuk modal layar penuh
+            if (event.target == fullscreenModal) {
+                closeFullscreenModal();
             }
         });
     </script>
